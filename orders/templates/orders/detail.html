@@ -1,0 +1,179 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <!-- Posições da Encomenda-->
+            <div class="card shadow p-2 my-2">
+                <h4 class="card-header bg-dark text-warning text-center">
+                    Encomenda {{object.transaction_id}}
+                </h4>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-warning text-center">
+                            - Posições da Encomenda - </li>
+                        {% for obj in object.get_positions %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                    {{obj.product.name}}
+                                </div>
+                            </div>
+                            <span class="badge bg-warning rounded-pill">{{obj.quantity}} x</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Fim Posições da Encomenda-->
+        </div>
+        <!-- Preços encomenda-->
+        <div class="col">
+            <div class="card shadow p-2 my-2">
+                <h4 class="card-header bg-dark text-warning text-center">
+                    Preços {{object.transaction_id}}
+                </h4>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-warning text-center">
+                            - Preços dos Produtos da Encomenda -
+                        </li>
+                        {% for obj in object.get_positions %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                    {{obj.product.name}}
+                                </div>
+
+                            </div>
+                            <span class="badge bg-dark rounded-pill">{{obj.product.price}} ea</span>
+
+                            <span class="badge bg-warning rounded-pill">{{obj.price}} euros</span>
+                        </li>
+                        {% endfor %}
+                        <hr>
+                        <!-- Total -->
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                    Preço Total:
+                                </div>
+                            </div>
+                            <span class="badge bg-warning rounded-pill">{{object.total_price}} euros</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Fim preços encomenda-->
+
+        <!-- Cliente Info -->
+        <div class="col">
+            <div class="card shadow p-2 my-2">
+                <h4 class="card-header bg-dark text-center text-warning">
+                    Cliente com Encomenda {{object.transaction_id}}
+                </h4>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-warning text-center">- Informação cliente -</li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                    {{object.client.name}}
+                                </div>
+                            </div>
+
+                            <div class="product__img rounded mx-auto d-block my-3 p-2">
+                                <img src="{{object.client.logo.url}}" class="img-thumbnail"
+                                    alt="{{object.client.name}} image">
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                    Contacto: ..........
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                    Contador de encomendas realizadas
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Fim Cliente Info-->
+    </div>
+    <div class="row">
+        <!-- Pie chart com Total quantidade de produtos -->
+        <div class="col">
+            <div class="card shadow p-2 my-2">
+                <h5 class="card-header bg-dark text-center text-warning">
+                    Visualização quantidades
+                </h5>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-warning text-center">
+                            - Statistic da Encomenda - </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="chart-container" style="position: relative; height:18rem; width:22rem">
+                                <canvas id="myChart"></canvas>
+                                <script>
+                                    var ctx = document.getElementById('myChart').getContext('2d');
+                                    var myChart = new Chart(ctx, {
+                                        type: 'pie',
+                                        data: {
+                                            labels: [{% for obj in object.get_positions %} '{{ obj.product.name }}', {% endfor %} ],
+                                    datasets: [{
+                                        label: 'Encomenda',
+                                        data: [{% for obj in object.get_positions %} '{{ obj.quantity }}', {% endfor %}],
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.6)',
+                                            'rgba(255, 159, 64, 0.6)',
+                                            'rgba(255, 205, 86, 0.6)',
+                                            'rgba(75, 192, 192, 0.6)',
+                                            'rgba(54, 162, 235, 0.6)',
+                                            'rgba(153, 102, 255, 0.6)',
+                                            'rgba(201, 203, 207, 0.6)'
+                                        ],
+                                            borderColor: [
+                                                'rgb(255, 99, 132, 0.6)',
+                                                'rgb(255, 159, 64, 0.6)',
+                                                'rgb(255, 205, 86, 0.6)',
+                                                'rgb(75, 192, 192, 0.6)',
+                                                'rgb(54, 162, 235, 0.6)',
+                                                'rgb(153, 102, 255, 0.6)',
+                                                'rgb(201, 203, 207, 0.6)'
+                                            ],
+                                                borderWidth: 1
+                                    }]
+                                },
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true
+                                                }
+                                            }]
+                                        }
+                                    }
+                            });
+                                </script>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

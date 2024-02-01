@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="container my-3">
+    <!-- Tabela Do Ordem de Produção Ínicio -->
+    <div class="row">
+        <div class="col">{% include 'product/card_table_order.html' %}</div>
+    </div>
+    <br>
+    <!-- Tabela Do Ordem de Produção Fim -->
+
+    <!-- Form top page -->
+    <div class="row">
+        <div class="col">
+            {% include 'product/card_form_o_prod.html' %}
+        </div>
+    </div>
+    <!-- End Form row-->
+    <hr>
+
+    <!-- Pie chart for each production order-->
+    <div class="row">
+        {% for obj in objects %}
+        <div class="col-md-4">
+            {% include 'product/card_chart_pie_p_ord.html' %}
+        </div>
+
+        {% endfor %}
+    </div>
+    <br>
+    <!-- End chart -->
+</div>
+
+{% endblock content %}

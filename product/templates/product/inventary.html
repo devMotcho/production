@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="container my-3">
+    <!-- Tabela Do Inventário Ínicio -->
+    <div class="row">
+        <div class="col">{% include 'product/card_table_inv.html' %}</div>
+    </div>
+    <!-- Tabela Do Inventário Fim -->
+    <div class="row p-2 text-center">
+        <div class="col">
+            <a href="{% url 'product:prod' %}">
+                <button type="button" class="btn btn-outline-warning btn-md">Adicionar
+                    Produção</button>
+            </a>
+        </div>
+    </div>
+    <br>
+    <!-- Gráficos Início -->
+    <div class="row">
+        {% include 'product/card_chart_bar_inv.html' %}
+    </div>
+    <!-- Gráficos Fim -->
+</div>
+
+
+{% endblock content %}

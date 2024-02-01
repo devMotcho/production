@@ -1,0 +1,123 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<main class="layout">
+    <div class="container">
+        <!-- Início Cartão do Produto-->
+        <div class="card  bg-dark text-white shadow text-center">
+            <!-- Imgem do Produto-->
+            <div class="product__img rounded mx-auto d-block my-3 p-2">
+                <img src="{{obj.image.url}}" class="img-thumbnail" alt="{{obj.name}} image">
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">Produto {{obj.name}}</h3>
+                <p class="card-text"> {{obj.inventary_set.first}} dísponiveis em stock</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Categoria : {{obj.category}}</li>
+                <li class="list-group-item">Preço Unitário : {{obj.price}}</li>
+            </ul>
+        </div>
+        <!-- Fim Cartão do Produto-->
+        <hr>
+        <!-- Ínicio informação de Ordem de Produção e Produções-->
+        <div class="card bg-dark text-white shadow text-center">
+            <div class="card-body">
+                <h3 class="card-title">-- Em Produção --</h3>
+                <p class="card-text">Produções de {{obj.name}}</p>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row">
+                        <!-- Ínicio Lista Produções -->
+                        <div class="col md-4">
+
+                            <ol class="list-group list-group-numbered">
+
+                                {% for x in productions %}
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-start p-3 bg-secondary bg-opacity-10 border border-info border-start-0 rounded-end">
+                                    <div class="ms-2 me-auto ">
+                                        <div class="fw-bold">
+                                            {{x.employee}} - {{x.quantity}}
+                                            ({{x.date.day}}/{{x.date.month}}/{{x.date.year}})
+                                        </div>
+                                    </div>
+                                    <span class="badge bg-secondary rounded-pill">{{x.quantity}}</span>
+                                </li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        <!-- Fim Lista Produções -->
+
+                        <!-- Ínicio chart de visualização do estado da produção -->
+                        <div class="col">
+                            <div class="card p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end">
+                                <p class="card-text text-center">
+                                    Ordem de : {{order.quantity_ordered}}
+                                    Produzidas : {{order.quantity_produced}}
+                                </p>
+                                <div class="card-body bg-white">
+                                    <canvas id="myChart"></canvas>
+                                    <script>
+                                        var ctx = document.getElementById('myChart').getContext('2d');
+                                        var myChart = new Chart(ctx, {
+                                            type: 'pie',
+                                            data: {
+                                                labels: ['Quantidade Necessária', 'Quantidade Produzida'],
+                                                datasets: [{
+                                                    label: 'Ordem de Produção',
+                                                    data: ['{{order.quantity_ordered}}', '{{order.quantity_produced}}'],
+                                                    backgroundColor: [
+                                                        'rgba(255, 99, 132, 0.6)',
+                                                        'rgba(255, 159, 64, 0.6)',
+                                                        'rgba(255, 205, 86, 0.6)',
+                                                        'rgba(75, 192, 192, 0.6)',
+                                                        'rgba(54, 162, 235, 0.6)',
+                                                        'rgba(153, 102, 255, 0.6)',
+                                                        'rgba(201, 203, 207, 0.6)'
+                                                    ],
+                                                    borderColor: [
+                                                        'rgb(255, 99, 132, 0.6)',
+                                                        'rgb(255, 159, 64, 0.6)',
+                                                        'rgb(255, 205, 86, 0.6)',
+                                                        'rgb(75, 192, 192, 0.6)',
+                                                        'rgb(54, 162, 235, 0.6)',
+                                                        'rgb(153, 102, 255, 0.6)',
+                                                        'rgb(201, 203, 207, 0.6)'
+                                                    ],
+                                                    borderWidth: 1
+                                                }]
+                                            },
+                                            options: {
+                                                scales: {
+                                                    yAxes: [{
+                                                        ticks: {
+                                                            beginAtZero: true
+                                                        }
+                                                    }]
+                                                },
+                                                responsive: true,
+                                                maintainAspectRatio: false // Desabilita a manutenção da proporção para permitir a adaptabilidade
+                                            }
+                                        });
+                                    </script>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fim chart de visualização do estado da produção -->
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <!-- Fim informação de Ordem de Produção e Produções-->
+
+    </div>
+
+</main>
+
+{% endblock content %}

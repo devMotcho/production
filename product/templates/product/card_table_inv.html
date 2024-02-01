@@ -1,0 +1,31 @@
+<div class="card mb-2 shadow">
+    <h3 class="card-title text-center bg-dark text-white">
+        Dados Inventário
+    </h3>
+    <p class="card-text text-center ">
+        Produtos em Stoque - Veja as ordens de produção.
+    </p>
+    <div class="card-body">
+        <table class="table bg-white text-center">
+            <thead class="thead-dark">
+                <tr class="table-secondary">
+                    <th scope="col">#</th>
+                    <th scope="col">Produto</th>
+                    <th scope="col">Quantidade Total</th>
+                    <th scope="col">Produções</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in objects %}
+                <tr>
+                    <th scope="row">{{obj.id}}</th>
+                    <th>{{obj.product.name}}</th>
+                    <th>{{obj.total_quantity}}</th>
+                    <th><a class='btn btn-outline-success btn-sm' href="{% url 'product:view' obj.product.id %}">Ver
+                            Produções</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

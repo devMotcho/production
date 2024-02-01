@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row text-center">
+        <h2>Add new Production</h2>
+    </div>
+    <div class="row my-4">
+        <!-- Table start-->
+        <div class="col-ms-2 text-center">
+            <form method="post" action="{% url 'product:prod' %}">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                <table class="table bg-white">
+                    <thead class="thead-dark">
+                        <tr class="table-dark">
+                            <th scope="col">Date</th>
+                            <th scope="col">Ordem Produção</th>
+                            <th scope="col">Operator</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in formset %}
+                        <tr class="form-row">
+                            <td>{{ form.date }}</td>
+                            <td>{{ form.production_order }}</td>
+                            <td>{{ form.employee }}</td>
+                            <td>{{ form.quantity }}</td>
+                            <td>{{ form.time }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <input type="submit" value="Add Prod..." class="btn btn-outline-dark btn-lock text-center">
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+{% extends 'main.html' %}
+{% block content %}
+<main class="layout__page">
+
+    <div class="container">
+        <div class="row text-center">
+            <h2>Produtos</h2>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                {% include 'product/card_form_product.html' %}
+            </div>
+            <div class="col">
+                <div class="text-end">
+                    <a type="button" class="btn btn-outline-dark" href="{% url 'product:create' %}">Criar Produto</a>
+                </div>
+                <!-- Table start-->
+                <div class="row my-4 text-center">
+                    <div class="col-ms-2">
+                        <table class="table bg-white">
+                            <thead class="thead-dark">
+                                <tr class="table-dark">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Produto</th>
+                                    <th scope="col">Quantidade</th>
+                                    <th scope="col"> Preço </th>
+                                    <th scope="col"> Categoria</th>
+                                    <th scope="col">Atividade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for obj in objects %}
+                                <tr>
+                                    <th scope="row">{{obj.id}}</th>
+                                    <td>{{obj.name}}</td>
+                                    <td>{{obj.quantity}}</td>
+                                    <td>{{obj.price}}</td>
+                                    <td>{{obj.category}}</td>
+                                    <td class="text-center">
+                                        <a class='btn btn-outline-success btn-sm'
+                                            href="{% url 'product:view' obj.id %}">View</a>
+                                        <!-- Button triger modal -->
+                                        <a id="edit-btn" type='button' class='btn btn-dark btn-sm edit-btn'
+                                            href="{% url 'product:update' obj.id %}">Edit</a>
+                                        <a class='btn btn-danger btn-sm'
+                                            href="{% url 'product:delete' obj.id %}">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Table end-->
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock content %}

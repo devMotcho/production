@@ -1,0 +1,23 @@
+{% load crispy_forms_tags %}
+
+<div class="card shadow text-center p-3">
+    <h3 class="card-title bg-dark text-white">
+        Adicionar Novo Produto
+    </h3>
+    <p class="card-text">
+        Não é possível adicionar Produtos já existentes!
+    </p>
+    <div class="card-body sm-4">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form|crispy}}
+            <br>
+            <div class="form__action">
+                <a type="button" class="btn btn-outline-dark text-top p-2" href="{% url 'product:list' %}">
+                    Voltar</a>
+                <button type="submit" class="btn btn-outline-success text-bottom p-2">Submit</button>
+            </div>
+
+        </form>
+    </div>
+</div>

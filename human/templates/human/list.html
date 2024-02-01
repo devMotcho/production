@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="card shadow p-2">
+        <h3 class="card-title bg-dark text-center text-white">Recursos Humanos</h3>
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col-4">
+                    {% include 'human/card_form_employee.html' %}
+                </div>
+                <div class="col">
+                    <div class="text-end">
+                        <a type="button" class="btn btn-outline-dark" href="{% url 'human:create' %}">Adicionar
+                            Funcionário</a>
+                    </div>
+                    <!-- Table start-->
+                    <div class="row my-4 text-center">
+                        <div class="col-ms-2">
+                            <table class="table bg-white">
+                                <thead class="thead-dark">
+                                    <tr class="table-dark">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Departamento</th>
+                                        <th scope="col">Atividade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for obj in objects %}
+                                    <tr>
+                                        <th scope="row">{{obj.id}}</th>
+                                        <td>{{obj.first_name}} {{obj.last_name}}</td>
+                                        <td>{{obj.email}}</td>
+                                        <td>{{obj.department}}</td>
+                                        <td class="text-center">
+                                            <a class='btn btn-outline-success btn-sm'
+                                                href="{% url 'human:view' obj.id %}">View</a>
+                                            <!-- Button triger modal -->
+                                            <a id="edit-btn" type='button' class='btn btn-dark btn-sm edit-btn'
+                                                href="{% url 'human:update' obj.id %}">Edit</a>
+                                            <a class='btn btn-danger btn-sm'
+                                                href="{% url 'human:delete' obj.id %}">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Table end-->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock content %}

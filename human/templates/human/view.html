@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'human:update' obj.id %}"> <button type="button" class="btn btn-outline-warning ">Editar
+                Funcionário</button>
+        </a>
+    </div>
+    <!-- Ínicio Informações gerais Funcionário-->
+    <div class="card shadow p-2 my-2">
+        <h3 class="card-header bg-dark text-center text-white">
+            Informação {{obj.name}}
+        </h3>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card-text">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-warning text-center">
+                                <strong>{{obj.name}}</strong>
+                            </li>
+                            <li class="list-group-item"> Departamento: <strong>{{obj.get_department_display}}</strong>
+                            </li>
+                            <li class="list-group-item"> Email: <strong>{{obj.email}}</strong></li>
+                            <li class="list-group-item"> Tel. :<strong>+351 {{obj.contact}}</strong></li>
+                            <li class="list-group-item"> Morada: <strong>{{obj.address}}</strong></li>
+                            <li class="list-group-item"> Nacionalidade: <strong>{{obj.nationality}}</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="product__img rounded mx-auto d-block my-3 p-2 text-center">
+                        <img src="{{obj.image.url}}" class="img-thumbnail" alt="{{obj.name}} image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fim Informações gerais Funcionário-->
+
+
+
+    <!-- Ínicio Informações de Produção -->
+    <div class="row">
+        <!-- Lista de produções -->
+        <div class="col">
+            <div class="card shadow p-2 my-2">
+                <h4 class="card-header bg-dark text-white text-center">
+                    Produções {{obj.name}}
+                </h4>
+                <div class="card-body">
+                    {% for x in obj.production_set.all %}
+                    <li
+                        class="list-group-item d-flex justify-content-between align-items-start p-3 bg-secondary bg-opacity-10 border border-info border-start-0 rounded-end">
+                        <div class="ms-2 me-auto ">
+                            <div class="fw-bold">
+                                {{x.employee}} - {{x.quantity}}
+                                ({{x.date.day}}/{{x.date.month}}/{{x.date.year}})
+                            </div>
+                        </div>
+                        <span class="badge bg-secondary rounded-pill">{{x.quantity}}</span>
+                    </li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Chart -->
+        <div class="col">
+            Adicionar +
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}

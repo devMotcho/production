@@ -1,0 +1,50 @@
+<div class="card">
+    <div class="card-header">Bar Chart</div>
+    <div class="card-body">
+        <h5 class="card-title"></h5>
+        <div class="chart-container " style="position: relative; height:18rem; width:22rem">
+            <canvas id="myChart"></canvas>
+            <script>
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: [{% for obj in objects %} '{{obj.product.name}}', {% endfor %}],
+                datasets: [{
+                    label: 'Products',
+                    data: [{% for obj in objects %} '{{obj.total_quantity}}', {% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(255, 205, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(201, 203, 207, 0.6)'
+                    ],
+                        borderColor: [
+                            'rgb(255, 99, 132, 0.6)',
+                            'rgb(255, 159, 64, 0.6)',
+                            'rgb(255, 205, 86, 0.6)',
+                            'rgb(75, 192, 192, 0.6)',
+                            'rgb(54, 162, 235, 0.6)',
+                            'rgb(153, 102, 255, 0.6)',
+                            'rgb(201, 203, 207, 0.6)'
+                        ],
+                            borderWidth: 1
+                                                                                                                            }]
+                                                                                                                        },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+                                                                                                                    });
+            </script>
+        </div>
+    </div>
+</div>

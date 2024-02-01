@@ -1,0 +1,19 @@
+{% load crispy_forms_tags %}
+
+<div class="card text-center">
+    <h3 class="card-title bg-dark text-white">
+        Adicionar Nova Ordem de Produção!
+    </h3>
+    <p class="card-text">
+        Não é possível adicionar ordens a Produtos com ordem de produção não terminada!
+    </p>
+    <div class="card-body sm-4">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <br>
+            <button type="submit" class="btn btn-outline-dark btn-md">Criar Ordem</button>
+
+        </form>
+    </div>
+</div>

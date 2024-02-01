@@ -1,0 +1,40 @@
+<div class="card mb-2">
+    <h3 class="card-title text-center bg-dark text-white">
+        Dados Inventário
+    </h3>
+    <p class="card-text text-center ">
+        Ordens de Produção Atuais
+    </p>
+    <div class="card-body">
+        <table class="table bg-white text-center">
+            <thead class="thead-dark">
+                <tr class="table-secondary">
+                    <th scope="col">#</th>
+                    <th scope="col">Produto</th>
+                    <th scope="col">Quantidade da Ordem</th>
+                    <th scope="col">Quantidade Produzida</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Criada</th>
+                    <th scope="col">Atividade</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in objects %}
+                <tr>
+                    <th scope="row">{{obj.id}}</th>
+                    <th>{{obj.product.name}}</th>
+                    <th>{{obj.quantity_ordered}}</th>
+                    <th>{{obj.quantity_produced}}</th>
+                    <th>{{obj.state}}</th>
+                    <th>{{obj.created}}</th>
+
+
+                    <th><a class='btn btn-outline-success btn-sm' href="{% url 'product:view' obj.product.id %}">Ver
+                            Produções</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

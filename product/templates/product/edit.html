@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="form__product">
+    <div class="content p-2">
+        <div class="row my-4">
+            <div class="col">
+                <div class="card text-center p-2">
+                    <h4 class="card-header bg-dark text-white">
+                        Produção
+                    </h4>
+                    <form class="form p-2" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="card-body my-2 p-4">
+                            {{form | crispy}}
+                            <input class="btn btn-outline-success btn-block my-4" type="submit" value="Confirm">
+                            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-outline-dark btn-block">No, go
+                                back!</a>
+                        </div>
+                        <footer class="card-footer text-body-secondary">
+                            > Certifique-se que a informação dada corresponde ao pretendido
+                        </footer>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

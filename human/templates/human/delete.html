@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="form__product">
+    <div class="card shadow">
+        <h4 class="card-header bg-dark text-white">
+            Remover {{obj.first_name}} {{obj.last_name}} ?
+        </h4>
+        <div class="card-body">
+            <div class="card-text">
+                Ao Remover não pode voltar atrás!
+            </div>
+            <div class="card-body">
+                Funcionário {{obj.id}}
+                <ul class="list-group">
+                    <li class="list-group-item"> {{obj.first_name}} {{obj.first_name}}</li>
+                    <li class="list-group-item">{{obj.email}}</li>
+                    <li class="list-group-item">{{ obj.get_department_display }}</li>
+                </ul>
+                <br>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input class="btn btn-outline-warning btn-block" type="submit" value="Confirm">
+                    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-outline-dark btn-block">No, go back!</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
