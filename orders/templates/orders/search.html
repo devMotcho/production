@@ -21,8 +21,15 @@
             </div>
         </div>
     </div>
-
-
+    <br>
+    {% if dataframe %}
+    dataframe
+    {{dataframe|safe}}
+    positions
+    {{positions_df|safe}}
+    Merged
+    {{merged_df|safe}}
+    {% endif %}
 </div>
 
 
