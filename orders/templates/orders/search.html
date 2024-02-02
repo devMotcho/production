@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
             <div class="card search__form shadow">
                 <h4 class="card-header bg-dark text-warning text-center">
                     Procurar Dados Encomenda
@@ -20,7 +20,15 @@
                 </div>
             </div>
         </div>
+        <div class="col">
+            <div class="card shadow bg-white text-center p-2 my-2 border-none">
+                <div class="chart__image">
+                    <img src="data:image/png;base64, {{chart|safe}}" id="img">
+                </div>
+            </div>
+        </div>
     </div>
+
     <br>
     <div class="row">
         <div class="col">

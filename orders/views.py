@@ -5,7 +5,7 @@ import pandas as pd
 #my imports
 from .models import Order, Position
 from .forms import OrdersSearchForm
-from .utils import get_client_from_id, get_salesman_from_id
+from .utils import get_client_from_id, get_salesman_from_id, get_chart
 
 
 def search(request):
@@ -14,6 +14,7 @@ def search(request):
     merged_df = None
     df_dict = None
     df_rec = None
+    chart = None
 
 
     form = OrdersSearchForm(request.POST or None)
@@ -52,8 +53,12 @@ def search(request):
             positions_df = pd.DataFrame(positions_data)
             merged_df = pd.merge(dataframe, positions_df, on='order_id')
 
+            chart = get_chart(chart_type, merged_df, results_by)
+
             dataframe = dataframe.to_html()
             positions_df = positions_df.to_html()
+
+
             df_dict = merged_df.to_dict()
             df_rec = merged_df.to_dict(orient='records')
 
@@ -63,6 +68,7 @@ def search(request):
         'positions_df':positions_df,
         'df_dict':df_dict,
         'df_rec':df_rec,
+        'chart':chart,
     }
     return render(request, 'orders/search.html', context)
 
