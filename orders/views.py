@@ -12,6 +12,8 @@ def search(request):
     dataframe = None
     positions_df = None
     merged_df = None
+    df_dict = None
+    df_rec = None
 
 
     form = OrdersSearchForm(request.POST or None)
@@ -52,13 +54,15 @@ def search(request):
 
             dataframe = dataframe.to_html()
             positions_df = positions_df.to_html()
-            merged_df = merged_df.to_html()
+            df_dict = merged_df.to_dict()
+            df_rec = merged_df.to_dict(orient='records')
 
     context = {
         'form':form,
         'dataframe':dataframe,
         'positions_df':positions_df,
-        'merged_df':merged_df,
+        'df_dict':df_dict,
+        'df_rec':df_rec,
     }
     return render(request, 'orders/search.html', context)
 

@@ -22,13 +22,43 @@
         </div>
     </div>
     <br>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h4 class="card-header bg-dark text-center text-warning">
+                    Tabela Encomendas
+                </h4>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="table-dark text-center">
+                                {% for k, v in df_dict.items %}
+                                <th>{{k}}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for rec in df_rec %}
+                            <tr>
+                                {% for i2, k2 in rec.items %}
+                                <td>{{k2}}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% if dataframe %}
     dataframe
     {{dataframe|safe}}
     positions
     {{positions_df|safe}}
-    Merged
-    {{merged_df|safe}}
     {% endif %}
 </div>
 
