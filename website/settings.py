@@ -52,6 +52,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #middleware.py 
+    'website.middlewares.AjaxMiddleware',
 ]
 
 ROOT_URLCONF = 'website.urls'
@@ -135,7 +138,10 @@ MEDIA_URL ='/images/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+    BASE_DIR / 'orders' / 'static',
+    BASE_DIR / 'reports' / 'static',
 ]
 
 MEDIA_ROOT = BASE_DIR / 'static/images'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

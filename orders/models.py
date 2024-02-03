@@ -18,7 +18,7 @@ class Position(models.Model):
     created = models.DateTimeField(blank=True)
     
     def save(self, *args, **kwargs):
-        self.price = self.product.price * self.quantity
+        self.price = self.product.price * float(self.quantity)
         return super().save(*args, **kwargs)
     
     def get_order_id(self):
@@ -56,5 +56,18 @@ class Order(models.Model):
 
     def get_positions(self):
         return self.positions.all()
+
+
+class CSV(models.Model):
+    
+    file_name = models.CharField(max_length=100, null=True)
+    csv_file = models.FileField(upload_to='csvs', null=True)
+    activated = models.BooleanField(default=False)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.file_name)
 
 

@@ -45,8 +45,18 @@ def get_chart(chart_type, data, results_by, **kwargs):
     #bar
     if chart_type == '#1':
         sns.barplot(x=key, y='total_price', data=d)
+    #pie
+    elif chart_type == '#2':
+        plt.pie(data=d, x='total_price', labels=d[key].values)
+    #plot
+    elif chart_type == '#3':
+        plt.plot(d[key], d['total_price'], color='green', marker='o', linestyle='dashed')
+        plt.grid()
     else:
-        pass
+        print('error...')
+    
+    plt.tight_layout() #ajustar tamanho
+    
 
     chart = get_graph()
     return chart

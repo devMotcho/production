@@ -1,9 +1,23 @@
 {% extends 'main.html' %}
 {% block content %}
+<div class="container">
+    {% for obj in object_list %}
+    <div class="card mb-3">
+        {% if obj.image %}
+        <img src="{{obj.image.url}}" class="card-img-top" alt="{{obj.name}}">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">
+                {{obj.name}}
+            </h5>
+            <div class="card-text">
+                {{obj.text|truncatewords:2}}
+                <a href="{{obj.get_absolute_url}}" class="btn btn-outline-warning">detail</a>
 
-{% for obj in object_list %}
-{{obj}}
-{% endfor %}
-
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock content %}

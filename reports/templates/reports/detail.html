@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-dark text-warning text-center">
+            <h3>{{object.name}}</h3>
+            <div class="card-image">
+                {% if object.image %}
+                <img src="{{object.image.url}}" class="img-fluid" alt="{{object.name}}">
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <h3>Remarks</h3>
+            <p>{{object.text}}</p>
+            <p>Autor: <b>{{object.author}}</b></p>
+            <p>Criado: <b>{{object.created|timesince}} ago</b></p>
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
