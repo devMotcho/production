@@ -1,24 +1,89 @@
 {% extends 'main.html' %}
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="card">
-            <div class="card-header bg-dark text-white text-center">
-                Produção
-            </div>
-            <div class="col-md-4">
-                <a class="text-decoration-none" href="{% url 'product:prod' %}">
 
-                    <div class="card my-card shadow text-center p-3">
-                        <h5> Ver/Adicionar Produção</h5>
-                        <h4>{{productions_count}}</h4>
+<div class="container">
+    <div class="card shadow">
+        <h4 class="card-header bg-dark text-center text-warning">
+            Inventário
+        </h4>
+        <div class="row">
+            <!-- Chart-->
+            <div class="col">
+                <div class="card p-2">
+                    <h4 class="card-header bg-warning text-dark text-center">
+                        Produtos em Inventário
+                    </h4>
+                    <div class="card-body text-center">
+                        <div class="chart-container " style="position: relative; height:18rem; width:22rem">
+                            <canvas id="myChart"></canvas>
+                            <script>
+                                var ctx = document.getElementById('myChart').getContext('2d');
+                                var myChart = new Chart(ctx, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: [{% for obj in inventary %} '{{obj.product.name}}', {% endfor %}],
+                                datasets: [{
+                                    label: 'Products',
+                                    data: [{% for obj in inventary %} '{{obj.total_quantity}}', {% endfor %}],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.6)',
+                                        'rgba(255, 159, 64, 0.6)',
+                                        'rgba(255, 205, 86, 0.6)',
+                                        'rgba(75, 192, 192, 0.6)',
+                                        'rgba(54, 162, 235, 0.6)',
+                                        'rgba(153, 102, 255, 0.6)',
+                                        'rgba(201, 203, 207, 0.6)'
+                                    ],
+                                        borderColor: [
+                                            'rgb(255, 99, 132, 0.6)',
+                                            'rgb(255, 159, 64, 0.6)',
+                                            'rgb(255, 205, 86, 0.6)',
+                                            'rgb(75, 192, 192, 0.6)',
+                                            'rgb(54, 162, 235, 0.6)',
+                                            'rgb(153, 102, 255, 0.6)',
+                                            'rgb(201, 203, 207, 0.6)'
+                                        ],
+                                            borderWidth: 1
+                                                                                                                                                                                                        }]
+                                                                                                                                                                                                    },
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }]
+                                    }
+                                }
+                                                                                                                                                                                                });
+                            </script>
+                        </div>
                     </div>
-                </a>
+                </div>
+
+            </div>
+            <!-- Lista de Produtos-->
+            <div class="col">
+                {% for obj in inventary %}
+                <div class="card my-card shadow p-2">
+                    {{obj.product.name}}<a href="{% url 'product:view' obj.product.id %}">
+                        <button type="button" class="btn btn-outline-warning">Ver</button>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Ir Página Inventário-->
+            <div class="action">
+                <div class="card shadow text-center p-2">
+                    <a href="{% url 'product:inv' %}">
+                        <button type="button" class="btn btn-outline-success">Inventário</button>
+                    </a>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+
 
 {% endblock content %}

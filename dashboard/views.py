@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Sum
 
 from product.models import Inventary, Product, ProductionOrder, Production
 from human.models import Employee
@@ -7,12 +8,16 @@ def home(request):
     """
     Pagina de navegação
     """
+
     # Inventary
     inventary = Inventary.objects.filter()
     inv_count = inventary.count()
     product = Product.objects.filter()
     product_count = product.count()    
     
+    total = Inventary.objects.aggregate(Sum('total_quantity')).values()
+
+
     
     # Human Resorces
     employees = Employee.objects.filter()
@@ -30,6 +35,7 @@ def home(request):
         'inv_count':inv_count,
         'employees_count': employees_count,
         'order' : production_order_count,
-        'productions_count': productions_count
+        'productions_count': productions_count,
+        'inventary':inventary
     }
     return render(request, 'dashboard/home.html', context)

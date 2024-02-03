@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'statistic.apps.StatisticConfig',
     'orders.apps.OrdersConfig',
+    'reports.apps.ReportsConfig',
     
     # 3rd party apps
     'crispy_forms',

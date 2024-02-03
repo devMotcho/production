@@ -10,10 +10,8 @@ urlpatterns = [
     path('product/', include('product.urls')),
     path('human/', include('human.urls')),
 
-
-
-    #path('user/', include('user.urls')),
     path('orders/', include('orders.urls')),
+    path('reports/', include('reports.urls')),
 ]
 
 

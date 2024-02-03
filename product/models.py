@@ -26,7 +26,6 @@ class Product(models.Model):
         return f'{self.name} - ({self.category})'
 
 
-
 class ProductionState(models.TextChoices):
     PENDENT = 'P', 'Pendente'
     IN_PROD = 'EA', 'Em Produção'
