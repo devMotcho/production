@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" <title> PDF {{obj.name}} RELATÓRIO</title>
+    <style>
+        .image {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{obj.name}}</h1>
+    <hr>
+    <img src="{{obj.image.path}}" class="image">
+    <br>
+    <h3>Observações:</h3>
+    <p>{{obj.text}}</p>
+    <hr>
+    <p>Autor do relatório <b>{{obj.author}}</b></p>
+    <p>Criado em <b>{{obj.created}}</b></p>
+</body>
+
+</html>

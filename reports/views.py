@@ -92,3 +92,24 @@ def createReport(request):
             )
             return JsonResponse({'msg':'send'})
     return JsonResponse({})
+
+
+def renderPDF(request, pk):
+    template_path = 'reports/pdf.html'
+    obj = get_object_or_404(Report, pk=pk)
+    context = {'obj':obj}
+
+    response = HttpResponse(content_type='application/pdf')
+
+    response['Content-Disposition'] = 'filename="report.pdf"'
+
+    template=get_template(template_path)
+    html = template.render(context)
+
+    #create a pdf with pisa
+    pisa_status = pisa.CreatePDF(
+        html, dest=response
+    )
+    if pisa_status.err:
+        return HttpResponse('Algo deu errado <pre>' + html + '</pre>')
+    return response

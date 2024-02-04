@@ -1,22 +1,39 @@
 {% extends 'main.html' %}
 {% block content %}
+
 <div class="container">
     {% for obj in object_list %}
-    <div class="card mb-3">
-        {% if obj.image %}
-        <img src="{{obj.image.url}}" class="card-img-top" alt="{{obj.name}}">
+    {% if forloop.first or forloop.counter0|divisibleby:3 %}
+    <div class="row">
         {% endif %}
-        <div class="card-body">
-            <h5 class="card-title">
-                {{obj.name}}
-            </h5>
-            <div class="card-text">
-                {{obj.text|truncatewords:2}}
-                <a href="{{obj.get_absolute_url}}" class="btn btn-outline-warning">detail</a>
-
+        <div class="col-md-4 my-2 p-2">
+            <div class="card shadow my-card">
+                <h5 class="card-header bg-dark text-center text-warning">
+                    Relatório {{obj.name}} ({{obj.created}})
+                </h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            {% if obj.image %}
+                            <div class="card-image">
+                                <img src="{{obj.image.url}}" style="width:260px ;height: 140px;" alt="{{obj.name}}">
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <div class="card-text text-end">
+                                {{obj.text|truncatewords:2}}
+                                <a href="{{obj.get_absolute_url}}" class="btn btn-dark">detail</a>
+                                <a class="btn btn-danger" href="{% url 'reports:pdf' obj.id %}">PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        {% if forloop.last or forloop.counter|divisibleby:3 %}
     </div>
+    {% endif %}
     {% endfor %}
 </div>
 

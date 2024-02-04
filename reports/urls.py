@@ -5,7 +5,8 @@ from .views import (
     ReportDetailView,
     UploadTemplateView,
     csv_upload,
-    createReport
+    createReport,
+    renderPDF,
 )
 
 app_name = 'reports'
@@ -17,5 +18,6 @@ urlpatterns = [
     path('create-report/', createReport, name='create-report'),
 
     path('detail/<str:pk>/', ReportDetailView.as_view(), name='detail'),
+    path('detail/<str:pk>/pdf/', renderPDF, name='pdf'),
 
 ]
