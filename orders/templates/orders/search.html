@@ -11,30 +11,21 @@
 <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-dark text-center text-warning">
                 <div class="modal-title" id="ModalLabel">
-                    <a href="">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                            viewBox="0 0 32 32">
-                            <title>Seta</title>
-                            <path
-                                d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
-                            </path>
-                        </svg>
-                    </a>
                     <h4>Relatório</h4>
                 </div>
             </div>
             <div class="modal-body" id="modal-body">
                 <div id="alert-box"></div>
-                <form class="report-form" method="POST" action="" id="report-form">
+                <form class="report-form" method="POST" action="{% url 'reports:list' %}" id="report-form">
                     {% csrf_token %}
-                    <div class="form__group" id="report-form">
+                    <div class="form__group p-2 my-2" id="report-form">
                         {{report_form|crispy}}
                     </div>
-                    <div class="form__action">
-                        <a class="btn btn-outline-danger" href="">Cancelar</a>
-                        <button class="btn btn-outline-success" type="submit">Submeter</button>
+                    <div class="form__action text-center pd-2">
+                        <a class="btn btn-danger" href="{{request.META.HTTP_REFERER}}">Cancelar</a>
+                        <button class="btn btn-dark" type="submit">Submeter</button>
                     </div>
                 </form>
             </div>
@@ -44,46 +35,99 @@
 <!--Fim Modal -->
 
 
-
-
-
 <div class="container">
-    <div class="row">
-        <div class="col-3">
-            <div class="card search__form shadow">
-                <h4 class="card-header bg-dark text-warning text-center">
-                    Procurar Dados Encomenda
-                </h4>
-                <div class="card-body">
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        {{form|crispy}}
-                        <button class="btn btn-outline-warning p-2 my-2" type="submit">Procurar</button>
-                    </form>
+    <!-- Search form -->
+    <div class="card search__form shadow my-2 p-2">
+        <h4 class="card-header bg-dark text-warning text-center">
+            Procurar Dados Encomenda
+        </h4>
+        <div class="card-body">
+            <form action="" method="POST" class="search__form">
+                {% csrf_token %}
+                <div class="row align-items-center">
+                    <div class="col-auto mx-2 p-2">
+                        <!-- Date From-->
+                        {{form.date_from.errors}}
+                        <label for="{{form.date_from.id_for_label}}"><b>Data Inicial</b></label>
+                        <p>{{form.date_from}}</p>
+                    </div>
+                    <div class="col-auto mx-2 p-2">
+                        <!-- Date To -->
+                        {{form.date_to.errors}}
+                        <label for="{{form.date_to.id_for_label}}"><b>Data Final</b></label>
+                        <p>{{form.date_to}}</p>
+                    </div>
+                    <div class="col-auto mx-2 p-2">
+                        <!-- Chart Type-->
+                        {{form.chart_type.errors}}
+                        <label for="{{form.chart_type.id_for_label}}"><b>Tipo de Gráfico</b></label>
+                        <p>{{form.chart_type}}</p>
+                    </div>
+                    <div class="col-auto mx-2 p-2">
+                        <!-- Results by -->
+                        {{form.results_by.errors}}
+                        <label for="{{form.results_by.id_for_label}}"><b>Resultados por</b></label>
+                        <p>{{form.results_by}}</p>
+                    </div>
+                    <div class="col-auto mx-2 p-2">
+                        <!-- Button-->
+                        <input type="submit" value="Procurar" class="btn btn-dark">
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
-        <div class="col">
-            <div class="card shadow bg-white text-center p-2 my-2 border-none">
+    </div>
+    <!-- Fim Search form-->
+
+    {% if dataframe %}
+    <!-- start report-->
+    <div class="report align-center">
+        <button class="btn btn-warning" id="report-btn" data-bs-toggle="modal"
+            data-bs-target="#reportModal">Relatório</button>
+    </div>
+    <!-- end report -->
+    <div class="row align-center">
+        <!-- Ínicio Chart Encomendas-->
+        <div class="col-auto">
+            <div class="card shadow text-center p-2 my-2">
                 <div class="chart__image">
                     <img src="data:image/png;base64, {{chart|safe}}" id="img">
                 </div>
             </div>
         </div>
-        <div class="report">
-            <button class="btn btn-outline-danger" id="report-btn" data-bs-toggle="modal"
-                data-bs-target="#reportModal">Relatório</button>
+        <!-- Fim Chart Encomendas-->
+
+        <!-- Lista de Encomendas Procuradas-->
+        <div class="col-3">
+            <div class="card shadow my-2 p-2">
+                <h3 class="card-header bg-dark text-white text-center">
+                    Lista de Encomendas
+                </h3>
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for obj in object_list %}
+
+                        <li class="list-group-item">
+                            {{obj.transaction_id}}
+                            <a href="{{obj.get_absolute_url}}" class="btn btn-warning btn-sm">Ver</a>
+                        </li>
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
+        <!-- Fim Lista de Encomendas Procuradas-->
     </div>
 
-    <br>
+    <!-- Dataframe Table -->
     <div class="row">
         <div class="col">
-            <div class="card">
+            <div class="card shadow p-2 my-2">
                 <h4 class="card-header bg-dark text-center text-warning">
                     Tabela Encomendas
                 </h4>
-                <div class="card-body">
+                <div class="card-body text-center">
                     <table class="table table-bordered">
                         <thead>
                             <tr class="table-dark text-center">
@@ -93,7 +137,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             {% for rec in df_rec %}
                             <tr>
                                 {% for i2, k2 in rec.items %}
@@ -101,19 +144,13 @@
                                 {% endfor %}
                             </tr>
                             {% endfor %}
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
-    {% if dataframe %}
-    dataframe
-    {{dataframe|safe}}
-    positions
-    {{positions_df|safe}}
+    <!-- Fim Dataframe Table -->
     {% endif %}
 </div>
 

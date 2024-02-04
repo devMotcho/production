@@ -78,16 +78,17 @@ def csv_upload(request):
     return HttpResponse()
 
 def createReport(request):
-   if request.is_ajax():
-        image = request.POST.get('image')
-        img = get_image(image)
+    if request.is_ajax():
+            image = request.POST.get('image')
+            img = get_image(image)
 
-        profile = request.user.profile
+            profile = request.user.profile
 
-        Report.objects.create(
-            name=request.POST.get('name'),
-            text=request.POST.get('text'),
-            image = img,
-            author=profile,
-        )
-        return JsonResponse({})
+            Report.objects.create(
+                name=request.POST.get('name'),
+                text=request.POST.get('text'),
+                image = img,
+                author=profile,
+            )
+            return JsonResponse({'msg':'send'})
+    return JsonResponse({})

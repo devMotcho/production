@@ -16,6 +16,7 @@ def search(request):
     df_dict = None
     df_rec = None
     chart = None
+    orders_qs = None
 
 
     form = OrdersSearchForm(request.POST or None)
@@ -75,6 +76,7 @@ def search(request):
         'df_rec':df_rec,
         'chart':chart,
         'report_form':report_form,
+        'object_list':orders_qs,
     }
     return render(request, 'orders/search.html', context)
 

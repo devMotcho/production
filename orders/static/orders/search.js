@@ -22,12 +22,8 @@ if (img) {
 }
 
 reportBtn.addEventListener('click', () => {
-    console.log('clicked')
     img.setAttribute('class', 'w-100')
     modalBody.prepend(img)
-
-    console.log(img.src)
-
     reportForm.addEventListener('submit', e => {
         e.preventDefault()
 
