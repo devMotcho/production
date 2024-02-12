@@ -82,8 +82,9 @@
     {% if dataframe %}
     <!-- start report-->
     <div class="report align-center">
-        <button class="btn btn-warning" id="report-btn" data-bs-toggle="modal"
-            data-bs-target="#reportModal">Relatório</button>
+        <button class="btn btn-warning" id="report-btn" data-bs-toggle="modal" data-bs-target="#reportModal"> Criar
+            Relatório</button>
+        <a class="btn btn-dark" href="{% url 'reports:from-file' %}">Submeter CSV</a>
     </div>
     <!-- end report -->
     <div class="row align-center">

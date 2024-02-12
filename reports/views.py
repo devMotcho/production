@@ -14,6 +14,7 @@ from django.utils.dateparse import parse_date
 
 # my app imports
 from .models import Report
+from .forms import ReportForm
 from orders.models import Order, Position, CSV
 from product.models import Product
 from human.models import Client, Profile
@@ -92,6 +93,22 @@ def createReport(request):
             )
             return JsonResponse({'msg':'send'})
     return JsonResponse({})
+
+def updateReport(request, pk):
+    report = Report.objects.get(id=pk)
+    form = ReportForm(instance=report)
+    if request.method == 'POST':
+        form = ReportForm(request.POST, instance=report)
+        if form.is_valid():
+            form.save()
+            return redirect('reports:list')
+            
+
+    context = {
+        'report':report,
+        'form':form,
+    }
+    return render(request, 'reports/update.html', context)
 
 
 def renderPDF(request, pk):

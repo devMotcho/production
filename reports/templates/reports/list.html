@@ -2,38 +2,24 @@
 {% block content %}
 
 <div class="container">
+    <h3 class="page-header text-center">
+        Relatórios
+    </h3>
     {% for obj in object_list %}
-    {% if forloop.first or forloop.counter0|divisibleby:3 %}
-    <div class="row">
-        {% endif %}
-        <div class="col-md-4 my-2 p-2">
-            <div class="card shadow my-card">
-                <h5 class="card-header bg-dark text-center text-warning">
-                    Relatório {{obj.name}} ({{obj.created}})
-                </h5>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            {% if obj.image %}
-                            <div class="card-image">
-                                <img src="{{obj.image.url}}" style="width:260px ;height: 140px;" alt="{{obj.name}}">
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="col">
-                            <div class="card-text text-end">
-                                {{obj.text|truncatewords:2}}
-                                <a href="{{obj.get_absolute_url}}" class="btn btn-dark">detail</a>
-                                <a class="btn btn-danger" href="{% url 'reports:pdf' obj.id %}">PDF</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="list-group p-2 my-2">
+        <a href="{{obj.get_absolute_url}}"
+            class="list-group-item list-group-item-action list-group-item-dark flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{obj.name}}</h5>
+                <small>{{obj.created|timesince}} ago</small>
             </div>
-        </div>
-        {% if forloop.last or forloop.counter|divisibleby:3 %}
+            <hr>
+            <p class="mb-1">{{obj.text}}
+            </p>
+            <small><strong>{{obj.author}}</strong></small>
+        </a>
     </div>
-    {% endif %}
+    <!-- <a href="{% url 'reports:update-report' obj.id %}" class="btn btn-warning btn-sm">Editar</a> -->
     {% endfor %}
 </div>
 
