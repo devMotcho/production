@@ -10,6 +10,7 @@ from .views import (
     inventaryView,
 
     productionView,
+    addProduction,
     productionEdit,
     productionDelete,
 
@@ -32,6 +33,7 @@ urlpatterns = [
 
     #Productions
     path('production/', productionView, name='prod'),
+    path('add-prod/', addProduction, name='add-prod'),
     path('prod-edit/<str:pk>/', productionEdit, name='prod-edit'),
     path('prod-del/<str:pk>/', productionDelete, name='prod-del'),
 

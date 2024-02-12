@@ -1,0 +1,105 @@
+{% if request.user.is_authenticated %}
+
+<aside id="sidebar" class="js-sidebar">
+    <!-- Content for sidebar -->
+    <div class="h-100">
+        <div class="sidebar-logo bg-secondary text-center text-warning">
+            <a href="{% url 'dashboard:home' %}">DataMotive</a>
+        </div>
+        <ul class="sidebar-nav">
+            <li class="sidebar-header">
+            </li>
+            <hr>
+            <!-- Home -->
+            <li class="sidebar-item">
+                <a href="{% url 'dashboard:home' %}" class="sidebar-link">
+                    <i class="fa-solid fa-house"></i>
+                    Home
+                </a>
+            </li>
+            <hr>
+            <!-- Relatórios -->
+            <li class="sidebar-item">
+                <a href="{% url 'reports:list' %}" class="sidebar-link">
+                    <i class="fa-solid fa-file-lines pe-2"></i>
+                    Relatórios
+                </a>
+            </li>
+            <!-- Fim Relatórios -->
+            <hr>
+            <!-- Start Produção, Ordens de Produção  -->
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-target="#posts" data-bs-toggle="collapse"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-sliders pe-2"></i>
+                    Produção
+                </a>
+                <ul id="posts" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="{% url 'product:list' %}" class="sidebar-link">Produtos</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{% url 'product:prod' %}" class="sidebar-link">Tabela de Produções</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{% url 'product:add-prod' %}" class="sidebar-link">Adicionar Produções</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{% url 'product:production-order' %}" class="sidebar-link">Ordens de Produção</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Produção, Ordens de Produção  -->
+            <hr>
+            <!-- Start Human Resorces -->
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-regular fa-user pe-2"></i>
+                    Recursos Humanos
+                </a>
+                <ul id="auth" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="{% url 'human:list' %}" class="sidebar-link">Funcionários</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Clientes</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Colaboradores</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Human Resorces -->
+            <hr>
+            <!-- Start Logistica  -->
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-target="#log" data-bs-toggle="collapse"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    Logistica
+                </a>
+                <ul id="log" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="{% url 'orders:search' %}" class="sidebar-link">Encomendas</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{% url 'product:inv' %}" class="sidebar-link">Inventário</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Logistica  -->
+            <hr>
+            <!-- Start CSV file add -->
+            <li class="sidebar-item">
+                <a href="{% url 'reports:from-file' %}" class="sidebar-link">
+                    <i class="fa-solid fa-file-import"></i>
+                    CSV
+                </a>
+            </li>
+            <hr>
+            <!-- End CSV file add -->
+        </ul>
+    </div>
+</aside>
+{% endif %}

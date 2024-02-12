@@ -1,123 +1,231 @@
 {% extends 'main.html' %}
 {% block content %}
 
-<main class="layout">
-    <div class="container">
-        <!-- Início Cartão do Produto-->
-        <div class="card  bg-dark text-white shadow text-center">
-            <!-- Imgem do Produto-->
-            <div class="product__img rounded mx-auto d-block my-3 p-2">
-                <img src="{{obj.image.url}}" class="img-thumbnail" alt="{{obj.name}} image">
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">Produto {{obj.name}}</h3>
-                <p class="card-text"> {{obj.inventary_set.first}} dísponiveis em stock</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Categoria : {{obj.category}}</li>
-                <li class="list-group-item">Preço Unitário : {{obj.price}}</li>
-            </ul>
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="mb-4 text-center">
+            <h4>Informação Produto {{obj.name}}</h4>
         </div>
-        <!-- Fim Cartão do Produto-->
-        <hr>
-        <!-- Ínicio informação de Ordem de Produção e Produções-->
-        <div class="card bg-dark text-white shadow text-center">
-            <div class="card-body">
-                <h3 class="card-title">-- Em Produção --</h3>
-                <p class="card-text">Produções de {{obj.name}}</p>
-            </div>
-
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div class="row">
-                        <!-- Ínicio Lista Produções -->
-                        <div class="col md-4">
-
-                            <ol class="list-group list-group-numbered">
-
-                                {% for x in productions %}
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-start p-3 bg-secondary bg-opacity-10 border border-info border-start-0 rounded-end">
-                                    <div class="ms-2 me-auto ">
-                                        <div class="fw-bold">
-                                            {{x.employee}} - {{x.quantity}}
-                                            ({{x.date.day}}/{{x.date.month}}/{{x.date.year}})
-                                        </div>
-                                    </div>
-                                    <span class="badge bg-secondary rounded-pill">{{x.quantity}}</span>
-                                </li>
-                                {% endfor %}
-                            </ol>
-                        </div>
-                        <!-- Fim Lista Produções -->
-
-                        <!-- Ínicio chart de visualização do estado da produção -->
-                        <div class="col">
-                            <div class="card p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end">
-                                <p class="card-text text-center">
-                                    Ordem de : {{order.quantity_ordered}}
-                                    Produzidas : {{order.quantity_produced}}
-                                </p>
-                                <div class="card-body bg-white">
-                                    <canvas id="myChart"></canvas>
-                                    <script>
-                                        var ctx = document.getElementById('myChart').getContext('2d');
-                                        var myChart = new Chart(ctx, {
-                                            type: 'pie',
-                                            data: {
-                                                labels: ['Quantidade Necessária', 'Quantidade Produzida'],
-                                                datasets: [{
-                                                    label: 'Ordem de Produção',
-                                                    data: ['{{order.quantity_ordered}}', '{{order.quantity_produced}}'],
-                                                    backgroundColor: [
-                                                        'rgba(255, 99, 132, 0.6)',
-                                                        'rgba(255, 159, 64, 0.6)',
-                                                        'rgba(255, 205, 86, 0.6)',
-                                                        'rgba(75, 192, 192, 0.6)',
-                                                        'rgba(54, 162, 235, 0.6)',
-                                                        'rgba(153, 102, 255, 0.6)',
-                                                        'rgba(201, 203, 207, 0.6)'
-                                                    ],
-                                                    borderColor: [
-                                                        'rgb(255, 99, 132, 0.6)',
-                                                        'rgb(255, 159, 64, 0.6)',
-                                                        'rgb(255, 205, 86, 0.6)',
-                                                        'rgb(75, 192, 192, 0.6)',
-                                                        'rgb(54, 162, 235, 0.6)',
-                                                        'rgb(153, 102, 255, 0.6)',
-                                                        'rgb(201, 203, 207, 0.6)'
-                                                    ],
-                                                    borderWidth: 1
-                                                }]
-                                            },
-                                            options: {
-                                                scales: {
-                                                    yAxes: [{
-                                                        ticks: {
-                                                            beginAtZero: true
-                                                        }
-                                                    }]
-                                                },
-                                                responsive: true,
-                                                maintainAspectRatio: false // Desabilita a manutenção da proporção para permitir a adaptabilidade
-                                            }
-                                        });
-                                    </script>
-
+        <!-- Informação Produto -->
+        <div class="row">
+            <div class="col d-flex">
+                <div class="card flex-fill border-0 illustration">
+                    <div class="card-body p-0 d-flex flex-fill">
+                        <div class="row g-0 w-100">
+                            <div class="col-8">
+                                <div class="p-3 m-1">
+                                    <ul class="list-group">
+                                        <li class="list-group-item list-group-item-warning"> Produto
+                                            <strong>{{obj.name}}</strong>
+                                        </li>
+                                        <li class="list-group-item list-group-item-secondary"> Categoria
+                                            <strong>{{obj.category}}</strong>
+                                        </li>
+                                        <li class="list-group-item list-group-item-secondary"> <strong>{{obj.price}}
+                                            </strong>Euros / Unidade</li>
+                                        <li class="list-group-item list-group-item-secondary">
+                                            <strong>{{obj.inventary_set.first}}
+                                            </strong> {{obj.name}} em stock
+                                        </li>
                                 </div>
                             </div>
+                            <div class="col-4 align-self-end text-end">
+                                <img src="{{obj.image.url}}" class="img-fluid illustration-img" alt="">
+                            </div>
                         </div>
-                        <!-- Fim chart de visualização do estado da produção -->
-
                     </div>
-                </li>
-
-            </ul>
+                </div>
+            </div>
         </div>
-        <!-- Fim informação de Ordem de Produção e Produções-->
+        <!-- Fim Informação Produto -->
 
+
+        <!-- Calculos de Produtividade -->
+        <div class="row my-4">
+            <div class="col d-flex">
+                <div class="card flex-fill border-0 illustration p-2 my-2">
+                    <div class="card-body p-0 d-flex flex-fill">
+                        <div class="row g-0 w-100">
+                            <!-- Chart Produtividade -->
+                            <div class="col-lg-6 align-self-start text-start">
+                                <div class="chart-container">
+                                    <canvas id="myChart1"></canvas>
+                                </div>
+                                <script>
+                                    var ctx = document.getElementById('myChart1').getContext('2d');
+                                    var myChart = new Chart(ctx, {
+                                        type: 'line',
+                                        data: {
+                                            labels: [{% for production in productions %}'{{ production.time }}',{% endfor %}],
+                                    datasets: [{
+                                        label: 'Produção',
+                                        data: [{% for production in productions %} '{{ production.quantity }}', {% endfor %}],
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                            borderColor: 'rgba(75, 192, 192, 1)',
+                                                borderWidth: 1,
+                                                    pointRadius: 5,
+                                                        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                                                            pointHoverRadius: 7,
+                                                                pointHoverBackgroundColor: 'rgba(75, 192, 192, 1)'
+                                            }, {
+                                        label: 'Média de Produção',
+                                            data: [{% for production in productions %} '{{ avarage_production }}', {% endfor %}],
+                                    borderColor: 'rgba(255, 99, 132, 0.6)',
+                                        borderWidth: 2,
+                                            borderDash: [5, 5],
+                                                fill: false,
+                                                    pointRadius: 0
+                                    }]
+                                        },
+                                    options: {
+                                        scales: {
+                                            xAxes: [{
+                                                type: 'time',
+                                                time: {
+                                                    unit: 'day',
+                                                    displayFormats: {
+                                                        day: 'MMM D'
+                                                    }
+                                                },
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: 'Data'
+                                                }
+                                            }],
+                                                yAxes: [{
+                                                    scaleLabel: {
+                                                        display: true,
+                                                        labelString: 'Produção'
+                                                    }
+                                                }]
+                                        }
+                                    }
+                                    });
+                                </script>
+                            </div>
+                            <!-- Fim Chart Produtividade -->
+
+                            <!-- Tabela Calculo Produtividade -->
+                            <div class="col-6">
+                                <table class="table text-center">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Total Unidades</th>
+                                            <th scope="col">Total Horas</th>
+                                            <th scope="col">Preço Total</th>
+                                            <th scope="col">Média Prod / Hora</th>
+                                            <th scope="col">Lucro / Hora</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="table-warning">
+                                            <td>{{total_products}} uni.</td>
+                                            <td>{{total_production_time}} Horas</td>
+                                            <td>{{total_price}} € </td>
+                                            <td>{{production_hour}} uni / hora</td>
+                                            <td>{{profit_per_hour}} € / hora</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Fim Tabela Calculo Produtividade -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fim Calculos de Produtividade -->
+
+
+        <!-- Info Produções -->
+        <div class="row my-4">
+            <div class="col d-flex">
+                <div class="card flex-fill border-0 illustration p-2 my-2">
+                    <div class="card-body p-0 d-flex flex-fill">
+                        <div class="row g-0 w-100">
+                            <!-- Lista Produções -->
+                            <div class="col-8 d-flex">
+                                <div class="p-3 m-1">
+                                    <ul class="list-group">
+                                        <li
+                                            class="list-group-item list-group-item-warning d-flex justify-content-between">
+                                            <strong>Produções Do Produto {{obj.name}}</strong>
+                                        </li>
+                                        {% for item in productions %}
+                                        <li class="list-group-item list-group-item-secondary">
+                                            <strong>{{item.employee}} - {{item.quantity}}
+                                                ({{item.date.day}}/{{item.date.month}}/{{item.date.year}})</strong>
+                                            <span
+                                                class="badge bg-secondary rounded-pill align-self-end">{{item.quantity}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Fim Lista Produções -->
+                            <!-- Chart Ordem de Produção -->
+                            <div class="col-lg-4 align-self-start text-start">
+                                <h5 class="text-center">
+                                    <strong>Ordem de : </strong>{{order.quantity_ordered}}
+                                    <br>
+                                    <strong>Quantidade Produzida : </strong>{{order.quantity_produced}}
+                                </h5>
+                                <div class="chart-container">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+
+                                <script>
+                                    var ctx = document.getElementById('myChart').getContext('2d');
+                                    var myChart = new Chart(ctx, {
+                                        type: 'pie',
+                                        data: {
+                                            labels: ['Quantidade Necessária', 'Quantidade Produzida'],
+                                            datasets: [{
+                                                label: 'Ordem de Produção',
+                                                data: ['{{order.quantity_ordered}}', '{{order.quantity_produced}}'],
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.6)',
+                                                    'rgba(255, 159, 64, 0.6)',
+                                                    'rgba(255, 205, 86, 0.6)',
+                                                    'rgba(75, 192, 192, 0.6)',
+                                                    'rgba(54, 162, 235, 0.6)',
+                                                    'rgba(153, 102, 255, 0.6)',
+                                                    'rgba(201, 203, 207, 0.6)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132, 0.6)',
+                                                    'rgb(255, 159, 64, 0.6)',
+                                                    'rgb(255, 205, 86, 0.6)',
+                                                    'rgb(75, 192, 192, 0.6)',
+                                                    'rgb(54, 162, 235, 0.6)',
+                                                    'rgb(153, 102, 255, 0.6)',
+                                                    'rgb(201, 203, 207, 0.6)'
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                yAxes: [{
+                                                    ticks: {
+                                                        beginAtZero: true
+                                                    }
+                                                }]
+                                            },
+                                            responsive: true,
+                                            maintainAspectRatio: false // Desabilita a manutenção da proporção para permitir a adaptabilidade
+                                        }
+                                    });
+                                </script>
+                            </div>
+                            <!-- Fim Chart Ordem de Produção -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fim Produções -->
     </div>
-
 </main>
-
 {% endblock content %}

@@ -1,41 +1,36 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<div class="form__product">
-    <div class="card shadow p-2">
-        <h4 class="card-header bg-dark shadow text-white text-center">
-            Login
-        </h4>
-        <div class="card-body p-2 my-2">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <div class="form-group my-2 p-2">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username...">
+<main class="content px-3 py-2">
+    <div class="form-login">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="wrapper-login">
+                <h1>Login</h1>
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <i class='bx bxs-user'></i>
                 </div>
-                <div class="form-group my-2 p-2">
-                    <label for="password">Password</label>
-                    <input id="password" class="form-control" name="password" type="password"
-                        placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+                <div class="input-box">
+                    <input type="password" name="password"
+                        placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
+                    <i class='bx bxs-lock-alt'></i>
                 </div>
-                <div class="form-action text-center p-2 my-2">
-                    <button type="submit" class="btn btn-outline-warning">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                            viewBox="0 0 32 32">
-                            <title>lock</title>
-                            <path
-                                d="M27 12h-1v-2c0-5.514-4.486-10-10-10s-10 4.486-10 10v2h-1c-0.553 0-1 0.447-1 1v18c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-18c0-0.553-0.447-1-1-1zM8 10c0-4.411 3.589-8 8-8s8 3.589 8 8v2h-16v-2zM26 30h-20v-16h20v16z">
-                            </path>
-                            <path
-                                d="M15 21.694v4.306h2v-4.306c0.587-0.348 1-0.961 1-1.694 0-1.105-0.895-2-2-2s-2 0.895-2 2c0 0.732 0.413 1.345 1 1.694z">
-                            </path>
-                        </svg>
-                        Login</button>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">Remember me</label>
+                    <a href="#">Forgot password?</a>
                 </div>
+                <button type="submit" class="btn btn-warning">Login</button>
 
-            </form>
-        </div>
+                <div class="register-link">
+                    <p>Don't have an account?
+                        <a href="#">Register</a>
+                    <p>
+                </div>
+            </div>
+            </body>
+        </form>
     </div>
-</div>
+</main>
 
 {% endblock content %}

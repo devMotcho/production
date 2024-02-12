@@ -1,89 +1,58 @@
 {% extends 'main.html' %}
+{% load static %}
 {% block content %}
-
-
-<div class="container">
-    <div class="card shadow">
-        <h4 class="card-header bg-dark text-center text-warning">
-            Inventário
-        </h4>
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="mb-3 text-center">
+            <h4>Admin Dashboard</h4>
+        </div>
         <div class="row">
-            <!-- Chart-->
-            <div class="col">
-                <div class="card p-2">
-                    <h4 class="card-header bg-warning text-dark text-center">
-                        Produtos em Inventário
-                    </h4>
-                    <div class="card-body text-center">
-                        <div class="chart-container " style="position: relative; height:18rem; width:22rem">
-                            <canvas id="myChart"></canvas>
-                            <script>
-                                var ctx = document.getElementById('myChart').getContext('2d');
-                                var myChart = new Chart(ctx, {
-                                    type: 'pie',
-                                    data: {
-                                        labels: [{% for obj in inventary %} '{{obj.product.name}}', {% endfor %}],
-                                datasets: [{
-                                    label: 'Products',
-                                    data: [{% for obj in inventary %} '{{obj.total_quantity}}', {% endfor %}],
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.6)',
-                                        'rgba(255, 159, 64, 0.6)',
-                                        'rgba(255, 205, 86, 0.6)',
-                                        'rgba(75, 192, 192, 0.6)',
-                                        'rgba(54, 162, 235, 0.6)',
-                                        'rgba(153, 102, 255, 0.6)',
-                                        'rgba(201, 203, 207, 0.6)'
-                                    ],
-                                        borderColor: [
-                                            'rgb(255, 99, 132, 0.6)',
-                                            'rgb(255, 159, 64, 0.6)',
-                                            'rgb(255, 205, 86, 0.6)',
-                                            'rgb(75, 192, 192, 0.6)',
-                                            'rgb(54, 162, 235, 0.6)',
-                                            'rgb(153, 102, 255, 0.6)',
-                                            'rgb(201, 203, 207, 0.6)'
-                                        ],
-                                            borderWidth: 1
-                                                                                                                                                                                                        }]
-                                                                                                                                                                                                    },
-                                options: {
-                                    scales: {
-                                        yAxes: [{
-                                            ticks: {
-                                                beginAtZero: true
-                                            }
-                                        }]
-                                    }
-                                }
-                                                                                                                                                                                                });
-                            </script>
+            <div class="col-12 col-md-6 d-flex">
+                <div class="card flex-fill border-0 illustration">
+                    <div class="card-body p-0 d-flex flex-fill">
+                        <div class="row g-0 w-100">
+                            <div class="col-6">
+                                <div class="p-3 m-1">
+                                    <h4> Welcome Back, @{{request.user}}!</h4>
+                                    <p class="mb-0">Admin Dashboard, heyo! </p>
+                                </div>
+                            </div>
+                            <div class="col-6 align-self-end text-end">
+                                <img src="{% static 'images/hello.gif' %}" class="img-fluid illustration-img" alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex">
+                <div class="card flex-fill border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-start">
+                            <div class="flex-grow-1">
+                                <h4 class="mb-2">
+                                    $ 78.00
+                                </h4>
+                                <p class="mb-2">
+                                    Total Earnings
+                                </p>
+                                <div class="mb-0">
+                                    <span class="badge text-success me-2">
+                                        +9.0 %
+                                    </span>
+                                    <span class="text-muted">
+                                        Since Last Month
+                                    </span>
+                                </div>
+                            </div>
 
-            </div>
-            <!-- Lista de Produtos-->
-            <div class="col">
-                {% for obj in inventary %}
-                <div class="card my-card shadow p-2">
-                    {{obj.product.name}}<a href="{% url 'product:view' obj.product.id %}">
-                        <button type="button" class="btn btn-outline-warning">Ver</button>
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-            <!-- Ir Página Inventário-->
-            <div class="action">
-                <div class="card shadow text-center p-2">
-                    <a href="{% url 'product:inv' %}">
-                        <button type="button" class="btn btn-outline-success">Inventário</button>
-                    </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</main>
+
 
 
 {% endblock content %}

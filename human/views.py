@@ -4,9 +4,11 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
+import pandas as pd
+
 from .models import Employee, Profile
 from .forms import EmployeeForm
-from product.models import Production
+from product.models import Production, ProductionOrder
 
 
 
@@ -101,13 +103,22 @@ def employeeDelete(request, pk):
         'obj':employee,
     }
 
-    return render(request, 'human/delete.html', context)
+    return render(request, 'delete.html', context)
 
 def employeeView(request, pk):
+    dataframe = None
+
     employee = Employee.objects.get(id=pk)
+    productions = Production.objects.filter(employee=employee)
+    
+    dataframe = pd.DataFrame(productions.values())
+
+    print(dataframe)
+    
 
     context = {
         'obj':employee,
+        'productions':productions,
     }
     return render(request, 'human/view.html', context)
 

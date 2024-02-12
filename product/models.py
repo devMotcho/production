@@ -80,7 +80,7 @@ class Production(models.Model):
     date = models.DateTimeField(verbose_name='Data de Produção')
 
     def __str__(self):
-        return f'{self.employee.first_name} [{self.product}] - {self.quantity} x '
+        return f'{self.employee.first_name} - {self.quantity} x '
 
     def save(self, *args, **kwargs):
         if self.date is None:

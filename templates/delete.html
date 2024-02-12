@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="form__product">
+    <div class="content px-3 py-2">
+        <div class="card flex-fill border-0 illustration">
+            <div class="card-action text-end">
+                <a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning"><i class="fa-solid fa-xmark"></i></a>
+            </div>
+            <hr>
+            <div class="card-body p-0 d-flex flex-fill">
+                <div class="p-3 m-1">
+                    Tem a certeza que deseja eliminar <strong>{{obj.name}}</strong> ??
+                    <hr>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+
+                        <div class="form__action text-center">
+                            <button type="submit" class="btn btn-warning border-2 text-bottom p-2">Confirmar<span
+                                    class="badge bg-dark mx-2"><i class="fa-solid fa-check"></i></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

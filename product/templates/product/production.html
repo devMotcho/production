@@ -1,64 +1,52 @@
 {% extends 'main.html' %}
 {% block content %}
-<main class="layout__page">
-
-    <div class="container">
-        <div class="row text-center">
-            <h2>Produção</h2>
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="mb-3 text-center">
+            <h4> Tabela de Produções</h4>
         </div>
-        <div class="row">
-            <div class="col-4">
-                {% include 'product/card_form_production.html' %}
-            </div>
-            <div class="col">
-                <div class="text-end">
-                    <a type="button" class="btn btn-outline-dark" href="{% url 'product:create' %}">Criar Produto</a>
-                </div>
-                <!-- Table start-->
-                <div class="row my-4 text-center">
-                    <!-- Table start-->
-                    <div class="col-ms-2 text-center">
-                        <table class="table bg-white">
-                            <thead class="thead-dark">
-                                <tr class="table-dark">
-                                    <th scope="col">#</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Operator</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Hours</th>
-                                    <th scope="col">Activity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for obj in objects %}
-                                <tr>
-                                    <th scope="row">{{obj.id}}</th>
-                                    <td>{{obj.date}}</td>
-                                    <td>{{obj.production_order.product.name}}</td>
-                                    <td>{{obj.employee.first_name}}</td>
-                                    <td>{{obj.quantity}}</td>
-                                    <td class="text-center">{{obj.time}}</td>
-                                    <!--td>{{obj.notes}}</!--td-->
-                                    <td class="text-center">
-                                        <a class='btn btn-outline-success btn-sm'
-                                            href="{% url 'product:view' obj.production_order.product.id %}">View
-                                            Prod</a>
-                                        <a class='btn btn-dark btn-sm'
-                                            href="{% url 'product:prod-edit' obj.id %}">Edit</a>
-                                        <a class='btn btn-danger btn-sm'
-                                            href="{% url 'product:prod-del' obj.id %}">Delete</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Table end-->
+        <div class="action mb-4 text-end">
+            <a type="button" class="btn btn-warning" href="{% url 'product:add-prod' %}">Criar Produto</a>
+        </div>
+        <div class="card border-0">
+            <!-- Start Table Produtos -->
+            <div class="card-body text-center">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Operator</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Hours</th>
+                            <th scope="col">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in objects %}
+                        <tr>
+                            <th scope="row">{{obj.id}}</th>
+                            <td>{{obj.date}}</td>
+                            <td>{{obj.production_order.product.name}}</td>
+                            <td>{{obj.employee.first_name}}</td>
+                            <td>{{obj.quantity}}</td>
+                            <td class="text-center">{{obj.time}}</td>
+                            <!--td>{{obj.notes}}</!--td-->
+                            <td class="text-center">
+                                <a class='btn btn-warning btn-sm'
+                                    href="{% url 'product:view' obj.production_order.product.id %}">View
+                                </a>
+                                <a class='btn btn-success btn-sm' href="{% url 'product:prod-edit' obj.id %}">Edit</a>
+                                <a class='btn btn-danger btn-sm' href="{% url 'product:prod-del' obj.id %}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-
     </div>
+
 </main>
 {% endblock content %}

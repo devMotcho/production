@@ -73,7 +73,7 @@ def productDelete(request, pk):
         product.delete()
         messages.success(request, 'Product Deleted!', "alert-success alert-dismissible")
         return redirect('product:list')
-    return render(request, 'product/delete.html', {'obj': product})
+    return render(request, 'delete.html', {'obj': product})
 
 def productView(request, pk):
     """
@@ -87,12 +87,38 @@ def productView(request, pk):
         production_order = ProductionOrder.objects.none()
     productions = Production.objects.filter(production_order__product=product)
 
+
+    total_products = 0
+    total_production_time = 0
+
+    for production in productions:
+        # total de produtos produzidos
+        total_products += production.quantity
+        # total de horas de produção
+        total_production_time += production.time
+        # preço total
+        total_price = total_products * product.price
+        # Quantidade Produzida por Hora
+        production_hour = total_products / total_production_time
+        # lucro por hora
+        profit_per_hour = total_price / total_production_time
+        # média de produção
+        avarage_production = total_products / productions.count()
+        
+    production_hour = round(production_hour)
+    profit_per_hour = round(profit_per_hour)
     
         
     context = {
         'obj':product,
         'order':production_order,
-        'productions':productions
+        'productions':productions,
+        'total_products':total_products,
+        'total_production_time':total_production_time,
+        'total_price':total_price,
+        'production_hour':production_hour,
+        'profit_per_hour':profit_per_hour,
+        'avarage_production':avarage_production,
     }
     return render(request, 'product/view.html', context)
 
@@ -120,22 +146,29 @@ def productionView(request):
     productions = Production.objects.filter(
         Q(employee__first_name__icontains=q) |
         Q(inventary__product__name__icontains=q)
-    )
-        # Criação do formset com base no formulário do modelo Production
+    ).order_by('-date')
+
+    context = {
+        'objects': productions,
+    }
+    return render(request, 'product/production.html', context)
+
+def addProduction(request):
+
     ProductionFormSet = modelformset_factory(Production, ProductionForm, extra=1, formset=BaseProductionFormSet)
     formset = ProductionFormSet(queryset=Production.objects.none())
     if request.method == 'POST':
         formset = ProductionFormSet(request.POST)
         if formset.is_valid():
             formset.save()
+            messages.success(request, 'Produção Adicionada com sucesso!', "alert-success alert-dismissible")
             return redirect('product:prod')
-            messages.success(request, 'Productions added with success!', "alert-success alert-dismissible")
-
+    
     context = {
-        'objects': productions,
         'form':formset,
     }
-    return render(request, 'product/production.html', context)
+    return render(request, 'product/add_prod.html', context)
+
 
 
 def productionEdit(request, pk):
@@ -162,7 +195,7 @@ def productionDelete(request, pk):
         production.delete()
         messages.success(request, 'Produção Deleted!', "alert-success alert-dismissible")
         return redirect('product:prod')
-    return render(request, 'product/delete.html', {'obj': production})
+    return render(request, 'delete.html', {'obj': production})
 
 
 #Orem Produção
