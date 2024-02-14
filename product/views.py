@@ -220,15 +220,19 @@ def productionOrderView(request):
     ordemProd = ProductionOrder.objects.filter(
         Q(product__name__icontains=q)
     )
+    products = Product.objects.all()
     form = ProductionOrderForm()
     if request.method == 'POST':
         form = ProductionOrderForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Ordem Adicionada com sucesso!', 'alert-success alert-dismissible')
+        else:
+            messages.error(request, 'ERRO! FORMULARIO NÃO FOI SUBMETIDO !!!', 'alert-warning alert-dismissible')
     context = {
         'objects': ordemProd,
         'form':form,
+        'products':products,
     }
     return render(request, 'product/production_order.html', context)
 

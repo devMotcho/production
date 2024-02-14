@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
-from orders.utils import generate_code
+import uuid
 from human.models import Employee
 
 
@@ -58,8 +57,9 @@ class ProductionOrder(models.Model):
             self.state = ProductionState.CONCLUDED
         else:
             self.state = ProductionState.IN_PROD
+        
         if self.prod_order_id == '':
-            self.prod_order_id =  self.generate_code()
+            self.prod_order_id =  str(uuid.uuid4()).replace('-', '').upper()[:12]
         
         
         return super().save(*args, **kwargs)
