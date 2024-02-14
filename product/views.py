@@ -87,27 +87,32 @@ def productView(request, pk):
         production_order = ProductionOrder.objects.none()
     productions = Production.objects.filter(production_order__product=product)
 
-
     total_products = 0
     total_production_time = 0
+    production_hour = 0
+    profit_per_hour = 0
+    total_price = 0
+    avarage_production = 0
 
-    for production in productions:
-        # total de produtos produzidos
-        total_products += production.quantity
-        # total de horas de produção
-        total_production_time += production.time
-        # preço total
-        total_price = total_products * product.price
-        # Quantidade Produzida por Hora
-        production_hour = total_products / total_production_time
-        # lucro por hora
-        profit_per_hour = total_price / total_production_time
-        # média de produção
-        avarage_production = total_products / productions.count()
-        
-    production_hour = round(production_hour)
-    profit_per_hour = round(profit_per_hour)
-    
+    if productions != None:
+
+        for production in productions:
+            # total de produtos produzidos
+            total_products += production.quantity
+            # total de horas de produção
+            total_production_time += production.time
+            # preço total
+            total_price = total_products * product.price
+            # Quantidade Produzida por Hora
+            production_hour = total_products / total_production_time
+            # lucro por hora
+            profit_per_hour = total_price / total_production_time
+            # média de produção
+            avarage_production = total_products / productions.count()
+            
+        production_hour = round(production_hour)
+        profit_per_hour = round(profit_per_hour)
+
         
     context = {
         'obj':product,
@@ -148,8 +153,18 @@ def productionView(request):
         Q(inventary__product__name__icontains=q)
     ).order_by('-date')
 
+    ProductionFormSet = modelformset_factory(Production, ProductionForm, extra=1, formset=BaseProductionFormSet)
+    formset = ProductionFormSet(queryset=Production.objects.none())
+    if request.method == 'POST':
+        formset = ProductionFormSet(request.POST)
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, 'Produção Adicionada com sucesso!', "alert-success alert-dismissible")
+            return redirect('product:prod')
+
     context = {
         'objects': productions,
+        'form':formset,
     }
     return render(request, 'product/production.html', context)
 

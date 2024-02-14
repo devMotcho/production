@@ -1,0 +1,120 @@
+{% extends 'main.html' %}
+{% block content %}
+<!-- Modal -->
+<div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeModal">Adicionar Funcionário</h5>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" aria-label="Close"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+
+                    {{ form.name.errors }}
+                    <!-- Produto -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Produto</span>
+                        <input type="text" class="form-control" placeholder="Nome do Produto" aria-label="Produto"
+                            name="name" aria-describedby="basic-addon1">
+                    </div>
+                    {{ form.image.errors }}
+                    <!-- Escolher Imagem  -->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01">Fotografia</label>
+                        <input type="file" class="form-control" id="inputGroupFile01" name="image">
+                    </div>
+                    <!-- Descrição -->
+                    {{form.description.errors}}
+                    <div class="input-group">
+                        <span class="input-group-text">Descrição</span>
+                        <textarea class="form-control" aria-label="Descrição" name="description"></textarea>
+                    </div>
+                    <!-- Preço -->
+                    {{form.price.errors}}
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Preço</span>
+                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                            name="price">
+                        <span class="input-group-text">€</span>
+                    </div>
+                    <!-- Categoria -->
+                    {{ form.category.errors }}
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupSelect01">Departamento</label>
+                        <select class="form-select" id="inputGroupSelect01" name="category">
+                            <option selected disabled>Choose...</option>
+                            {% for choice in form.category.field.choices %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning border-2 text-bottom p-2">Confirmar<span
+                            class="badge bg-dark mx-2"><i class="fa-solid fa-check"></i></span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <!-- Ação da Página -->
+        <div class="action mb-4 text-end">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#employeeModal">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <div class="card border-0">
+            <div class="card-header">
+                <h4 class="card-title text-center mt-2">
+                    Tabela de Produtos
+                </h4>
+            </div>
+            <!-- Start Table Produtos -->
+            <div class="card-body text-center">
+                <table class="table bg-white">
+                    <thead class="thead-dark">
+                        <tr class="table-dark">
+                            <th scope="col">#</th>
+                            <th scope="col">Produto</th>
+                            <th scope="col"> Preço </th>
+                            <th scope="col"> Categoria</th>
+                            <th scope="col">Atividade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in objects %}
+                        <tr>
+                            <th scope="row">{{obj.id}}</th>
+                            <td>{{obj.name}}</td>
+                            <td>{{obj.price}}</td>
+                            <td>{{obj.category}}</td>
+                            <td class="text-center">
+                                <a class='btn btn-warning btn-sm' href="{% url 'product:view' obj.id %}"><i
+                                        class="fa-regular fa-eye"></i></a>
+                                <!-- Button triger modal -->
+                                <a id="edit-btn" type='button' class='btn btn-success btn-sm edit-btn'
+                                    href="{% url 'product:update' obj.id %}"><i
+                                        class="fa-solid fa-pen-to-square"></i></a>
+                                <a class='btn btn-danger btn-sm' href="{% url 'product:delete' obj.id %}"><i
+                                        class="fa-regular fa-circle-xmark"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Table Produtos -->
+        </div>
+    </div>
+</main>
+{% endblock content %}
