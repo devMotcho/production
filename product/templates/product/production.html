@@ -3,16 +3,18 @@
 <main class="content px-3 py-2">
     <div class="container-fluid">
         <div class="mb-3 text-center">
-            <h4> Tabela de Produções</h4>
+            <h4> Tabela De Produções</h4>
+            <hr>
         </div>
         <div class="action mb-4 text-end">
-            <a type="button" class="btn btn-warning" href="{% url 'product:add-prod' %}">Criar Produto</a>
+            <a type="button" class="btn btn-warning" href="{% url 'product:add-prod' %}"><i
+                    class="fa-solid fa-plus"></i></a>
         </div>
         <div class="card border-0">
             <!-- Start Table Produtos -->
             <div class="card-body text-center">
                 <table class="table">
-                    <thead class="table-dark">
+                    <thead class="table-secondary">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Date</th>
@@ -35,10 +37,13 @@
                             <!--td>{{obj.notes}}</!--td-->
                             <td class="text-center">
                                 <a class='btn btn-warning btn-sm'
-                                    href="{% url 'product:view' obj.production_order.product.id %}">View
+                                    href="{% url 'product:view' obj.production_order.product.id %}"><i
+                                        class="fa-regular fa-eye"></i>
                                 </a>
-                                <a class='btn btn-success btn-sm' href="{% url 'product:prod-edit' obj.id %}">Edit</a>
-                                <a class='btn btn-danger btn-sm' href="{% url 'product:prod-del' obj.id %}">Delete</a>
+                                <a class='btn btn-success btn-sm' href="{% url 'product:prod-edit' obj.id %}"><i
+                                        class="fa-solid fa-pen-to-square"></i></a>
+                                <a class='btn btn-danger btn-sm' href="{% url 'product:prod-del' obj.id %}"><i
+                                        class="fa-regular fa-circle-xmark"></i></a>
                             </td>
                         </tr>
                         {% endfor %}

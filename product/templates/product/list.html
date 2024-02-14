@@ -1,12 +1,12 @@
 {% extends 'main.html' %}
 {% block content %}
 <main class="content px-3 py-2">
-
-
     <div class="container-fluid">
+        <!-- Ação da Página -->
         <div class="action mb-4 text-end">
-            <a type="button" class="btn btn-warning" href="{% url 'product:create' %}"><i
-                    class="fa-solid fa-plus"></i></a>
+            <a type="button" class="btn btn-warning" href="{% url 'product:create' %}">
+                <i class="fa-solid fa-plus"></i>
+            </a>
         </div>
 
         <div class="card border-0">

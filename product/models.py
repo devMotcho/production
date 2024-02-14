@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-
+from orders.utils import generate_code
 from human.models import Employee
 
 
@@ -39,6 +39,7 @@ class ProductionOrder(models.Model):
     verifica se há em stoque se não houver
     cria esta ordem
     """
+    prod_order_id = models.CharField(max_length=12, blank=True)
     product = models.OneToOneField(Product, on_delete=models.CASCADE, unique=True, blank=True, verbose_name='Produto')
     quantity_ordered = models.IntegerField(verbose_name= 'Quantidade da Ordem')
     quantity_produced = models.IntegerField(verbose_name='Quantidade Produzida', default = 0)
@@ -57,12 +58,17 @@ class ProductionOrder(models.Model):
             self.state = ProductionState.CONCLUDED
         else:
             self.state = ProductionState.IN_PROD
+        if self.prod_order_id == '':
+            self.prod_order_id =  self.generate_code()
         
         
         return super().save(*args, **kwargs)
 
-    def __str__(self):
+    def call(self):
         return f'{self.product} - Quantidade: {self.quantity_ordered} - Estado: {self.get_state_display()}'
+
+    def __str__(self):
+        return f'{self.prod_order_id}'
 
 
 class Production(models.Model):

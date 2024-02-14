@@ -1,26 +1,29 @@
 {% extends 'main.html' %}
 {% block content %}
 
-<div class="container">
-    <h3 class="page-header text-center">
-        Relatórios
-    </h3>
-    {% for obj in object_list %}
-    <div class="list-group p-2 my-2">
-        <a href="{{obj.get_absolute_url}}"
-            class="list-group-item list-group-item-action list-group-item-dark flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{obj.name}}</h5>
-                <small>{{obj.created|timesince}} ago</small>
-            </div>
-            <hr>
-            <p class="mb-1">{{obj.text}}
-            </p>
-            <small><strong>{{obj.author}}</strong></small>
-        </a>
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="mb-3">
+            <h4> Relatórios </h4>
+        </div>
+        {% for obj in object_list %}
+        <div class="list-group p-3 my-2">
+            <a href="{{obj.get_absolute_url}}"
+                class="list-group-item list-group-item-secondary flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="m-1">{{obj.name}}</h5>
+                    <small>{{obj.created|timesince}} ago</small>
+                </div>
+                <hr>
+                <p class="mb-1">{{obj.text}}
+                </p>
+                <p class="text-end">{{obj.author}}</p>
+            </a>
+        </div>
+        <!-- <a href="{% url 'reports:update-report' obj.id %}" class="btn btn-warning btn-sm">Editar</a> -->
+        {% endfor %}
     </div>
-    <!-- <a href="{% url 'reports:update-report' obj.id %}" class="btn btn-warning btn-sm">Editar</a> -->
-    {% endfor %}
-</div>
+</main>
+
 
 {% endblock content %}

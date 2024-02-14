@@ -1,13 +1,7 @@
-<div class="card mb-2 shadow">
-    <h3 class="card-title text-center bg-dark text-white">
-        Dados Inventário
-    </h3>
-    <p class="card-text text-center ">
-        Produtos em Stoque - Veja as ordens de produção.
-    </p>
-    <div class="card-body">
-        <table class="table bg-white text-center">
-            <thead class="thead-dark">
+<div class="card border-2">
+    <div class="card-body text-center">
+        <table class="table">
+            <thead>
                 <tr class="table-secondary">
                     <th scope="col">#</th>
                     <th scope="col">Produto</th>
@@ -21,8 +15,8 @@
                     <th scope="row">{{obj.id}}</th>
                     <th>{{obj.product.name}}</th>
                     <th>{{obj.total_quantity}}</th>
-                    <th><a class='btn btn-outline-success btn-sm' href="{% url 'product:view' obj.product.id %}">Ver
-                            Produções</a></th>
+                    <th><a class='btn btn-warning btn-sm' href="{% url 'product:view' obj.product.id %}"><i
+                                class="fa-regular fa-eye"></i></a></th>
                 </tr>
                 {% endfor %}
             </tbody>

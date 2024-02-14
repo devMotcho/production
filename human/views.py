@@ -9,7 +9,7 @@ import pandas as pd
 from .models import Employee, Profile
 from .forms import EmployeeForm
 from product.models import Production, ProductionOrder
-
+from .utils import get_employee_by_id, get_prod_order_by_id
 
 
 # Gerir Users
@@ -52,11 +52,13 @@ def employeesList(request):
     employees = Employee.objects.filter()
     form = EmployeeForm()
     if request.method == 'POST':
-        form = EmployeeForm(request.POST)
+        form = EmployeeForm(request.POST, request.FILES)
+
         if form.is_valid():
             form.save()
             messages.success(request, 'Funcionário adicionado com sucesso!', 'alert-success alert-dismissible')
-
+        else:
+            messages.error(request, 'Erro ao Validar o Formulário!', 'alert-warning alert-dismissible')
 
     context= {
         'objects':employees,
@@ -106,19 +108,46 @@ def employeeDelete(request, pk):
     return render(request, 'delete.html', context)
 
 def employeeView(request, pk):
-    dataframe = None
+    productions_df = None
+    prod_product_df = None
+    result = None
 
     employee = Employee.objects.get(id=pk)
     productions = Production.objects.filter(employee=employee)
-    
-    dataframe = pd.DataFrame(productions.values())
 
-    print(dataframe)
-    
+    productions_df = pd.DataFrame(productions.values())
+    productions_df['employee_id'] = productions_df['employee_id'].apply(get_employee_by_id)
+    productions_df['production_order_id'] = productions_df['production_order_id'].apply(get_prod_order_by_id)
+    productions_df['date'] = productions_df['date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+    productions_df.rename({'id':'Prod', 'production_order_id':'Ordem Prod', 'employee_id':'Funcionario', 'quantity':'Quantidade', 'time':'Tempo de Prod', 'date': 'data'}, axis=1, inplace=True)
+
+    prod_product_data = []
+    for production in productions:
+        prod_product = {
+            'Ordem Prod': production.production_order.prod_order_id,
+            'Produto': production.production_order.product,
+        }
+        prod_product_data.append(prod_product)
+
+    prod_product_df = pd.DataFrame(prod_product_data)
+    result = pd.merge(productions_df, prod_product_df, on='Ordem Prod')
+        
+
+
+    print(productions_df)
+    print('*********')
+    print(prod_product_df)
+    print('*********')
+    print(result)
+
+    productions_df = productions_df.to_html()
+    result = result.to_html()
 
     context = {
         'obj':employee,
         'productions':productions,
+        'productions_df':productions_df,
+        'result':result,
     }
     return render(request, 'human/view.html', context)
 

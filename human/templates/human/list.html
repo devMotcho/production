@@ -1,5 +1,90 @@
 {% extends 'main.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeModal">Adicionar Funcionário</h5>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" aria-label="Close"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <!-- first_name , last_name -->
+                    {{ form.first_name.errors }}
+                    {{ form.last_name.errors }}
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Primeiro e Ultimo Nome</span>
+                        <input type="text" aria-label="First name" class="form-control" name="first_name">
+                        <input type="text" aria-label="Last name" class="form-control" name="last_name">
+                    </div>
+                    {{ form.email.errors }}
+
+                    <!-- Email -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Email</span>
+                        <input type="email" class="form-control" placeholder="Email" aria-label="Email" name="email"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <!-- department -->
+                    {{ form.department.errors }}
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupSelect01">Departamento</label>
+                        <select class="form-select" id="inputGroupSelect01" name="department">
+                            <option selected disabled>Choose...</option>
+                            {% for choice in form.department.field.choices %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    {{ form.image.errors }}
+                    <!-- Escolher Imagem  -->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01">Fotografia</label>
+                        <input type="file" class="form-control" id="inputGroupFile01" name="image">
+                    </div>
+                    {{ form.contact.errors }}
+                    <!-- Contacto -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Tel.</span>
+                        <input type="text" class="form-control" placeholder="Contact" aria-label="Contact"
+                            aria-describedby="basic-addon1" name="contact">
+                    </div>
+                    {{ form.nationality.errors }}
+                    <!-- Nacionalidade -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Nacionalidade</span>
+                        <input type="text" class="form-control" placeholder="Nationality" aria-label="Nationality"
+                            aria-describedby="basic-addon1" name="nationality">
+                    </div>
+                    {{ form.addres.errors }}
+                    <!-- Morada -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Morada</span>
+                        <input type="text" class="form-control" placeholder="Address" aria-label="Address"
+                            aria-describedby="basic-addon1" name="address">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning border-2 text-bottom p-2">Confirmar<span
+                            class="badge bg-dark mx-2"><i class="fa-solid fa-check"></i></span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
 <main class="content px-3 py-2">
 
     <div class="container-fluid">
@@ -7,9 +92,11 @@
             <h4> Tabela de Funcionários</h4>
         </div>
         <div class="action mb-4 text-end">
-            <a type="button" class="btn btn-warning" href="{% url 'human:create' %}"><i
-                    class="fa-solid fa-plus"></i></a>
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#employeeModal"><i
+                    class="fa-solid fa-plus"></i></button>
         </div>
+
+
         <div class="card border-0">
             <!-- Start Table Produtos -->
             <div class="card-body text-center">

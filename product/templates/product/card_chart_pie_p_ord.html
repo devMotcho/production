@@ -1,57 +1,52 @@
 <!-- Chart de Ordens de produção-->
-
-
-<div class="card p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end my-2">
+<div class="card flex-fill border-2 illustration p-2 my-2 align-self-center">
     <p class="card-text text-center">
     <h4><strong>{{obj.product.name}}</strong></h4>
     Ordem de : {{obj.quantity_ordered}}
     Produzidas : {{obj.quantity_produced}}
     </p>
-    <div class="card-body bg-white">
-        <canvas id="myChart{{obj.id}}"></canvas>
-        <script>
-            var ctx = document.getElementById('myChart{{obj.id}}').getContext('2d');
-            var myChart{{ obj.id }} = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Quantidade Necessária', 'Quantidade Produzida'],
-                    datasets: [{
-                        label: 'Ordem de Produção',
-                        data: ['{{obj.quantity_ordered}}', '{{obj.quantity_produced}}'],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(255, 159, 64, 0.6)',
-                            'rgba(255, 205, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(201, 203, 207, 0.6)'
-                        ],
-                        borderColor: [
-                            'rgb(255, 99, 132, 0.6)',
-                            'rgb(255, 159, 64, 0.6)',
-                            'rgb(255, 205, 86, 0.6)',
-                            'rgb(75, 192, 192, 0.6)',
-                            'rgb(54, 162, 235, 0.6)',
-                            'rgb(153, 102, 255, 0.6)',
-                            'rgb(201, 203, 207, 0.6)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
+    <div class="card-body p-0 d-flex flex-fill">
+        <div class="chart-container">
+            <canvas id="myChart{{obj.id}}"></canvas>
+            <script>
+                var ctx = document.getElementById('myChart{{obj.id}}').getContext('2d');
+                var myChart{{ obj.id }} = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Quantidade Necessária', 'Quantidade Produzida'],
+                        datasets: [{
+                            label: 'Ordem de Produção',
+                            data: ['{{obj.quantity_ordered}}', '{{obj.quantity_produced}}'],
+                            backgroundColor: [
+                                'rgba(255, 205, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(201, 203, 207, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgb(255, 205, 86, 1)',
+                                'rgb(75, 192, 192, 1)',
+                                'rgb(54, 162, 235, 0.6)',
+                                'rgb(153, 102, 255, 0.6)',
+                                'rgb(201, 203, 207, 0.6)'
+                            ],
+                            borderWidth: 1
                         }]
                     },
-                    responsive: true,
-                    maintainAspectRatio: false // Desabilita a manutenção da proporção para permitir a adaptabilidade
-                }
-            });
-        </script>
-
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false // Desabilita a manutenção da proporção para permitir a adaptabilidade
+                    }
+                });
+            </script>
+        </div>
     </div>
 </div>

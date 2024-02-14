@@ -5,15 +5,18 @@
 <script src="{% static 'orders/search.js' %}" defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock scripts %}
-
 {% block content %}
-<!--Ínicio Modal -->
+
+<!-- Form de Modal -->
 <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-dark text-center text-warning">
                 <div class="modal-title" id="ModalLabel">
-                    <h4>Relatório</h4>
+                    <div class="card-action align-self-end">
+                        <a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning"><i
+                                class="fa-solid fa-xmark"></i></a>
+                    </div>
                 </div>
             </div>
             <div class="modal-body" id="modal-body">
@@ -23,139 +26,139 @@
                     <div class="form__group p-2 my-2" id="report-form">
                         {{report_form|crispy}}
                     </div>
-                    <div class="form__action text-center pd-2">
-                        <a class="btn btn-danger" href="{{request.META.HTTP_REFERER}}">Cancelar</a>
-                        <button class="btn btn-dark" type="submit">Submeter</button>
+                    <div class="form__action text-center">
+                        <button type="submit" class="btn btn-warning border-2 text-bottom p-2">Confirmar<span
+                                class="badge bg-dark mx-2"><i class="fa-solid fa-check"></i></span></button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<!--Fim Modal -->
+<!-- Fim Form de Modal -->
 
 
-<div class="container">
-    <!-- Search form -->
-    <div class="card search__form shadow my-2 p-2">
-        <h4 class="card-header bg-dark text-warning text-center">
-            Procurar Dados Encomenda
-        </h4>
-        <div class="card-body">
-            <form action="" method="POST" class="search__form">
-                {% csrf_token %}
-                <div class="row align-items-center">
-                    <div class="col-auto mx-2 p-2">
-                        <!-- Date From-->
-                        {{form.date_from.errors}}
-                        <label for="{{form.date_from.id_for_label}}"><b>Data Inicial</b></label>
-                        <p>{{form.date_from}}</p>
-                    </div>
-                    <div class="col-auto mx-2 p-2">
-                        <!-- Date To -->
-                        {{form.date_to.errors}}
-                        <label for="{{form.date_to.id_for_label}}"><b>Data Final</b></label>
-                        <p>{{form.date_to}}</p>
-                    </div>
-                    <div class="col-auto mx-2 p-2">
-                        <!-- Chart Type-->
-                        {{form.chart_type.errors}}
-                        <label for="{{form.chart_type.id_for_label}}"><b>Tipo de Gráfico</b></label>
-                        <p>{{form.chart_type}}</p>
-                    </div>
-                    <div class="col-auto mx-2 p-2">
-                        <!-- Results by -->
-                        {{form.results_by.errors}}
-                        <label for="{{form.results_by.id_for_label}}"><b>Resultados por</b></label>
-                        <p>{{form.results_by}}</p>
-                    </div>
-                    <div class="col-auto mx-2 p-2">
-                        <!-- Button-->
-                        <input type="submit" value="Procurar" class="btn btn-dark">
-                    </div>
-                </div>
-            </form>
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="mb-4 text-center">
+            <h4>Visualização Encomendas</h4>
+            <hr>
         </div>
-    </div>
-    <!-- Fim Search form-->
+        <!-- Adicionar Encomenda -->
+        <!-- !!!!!!!!!!!!!! -->
+        <div class="action mb-4 text-end">
+            <a type="button" class="btn btn-warning" href="#">
+                <i class="fa-solid fa-plus"></i>
+            </a>
+        </div>
+        <!-- Form de Pesquisa -->
+        <div class="row my-4">
+            <div class="col-8 d-flex align-self-center text-center">
+                <!-- Chart de Ordens de produção-->
+                <div class="card flex-fill border-2 illustration p-2 my-2">
+                    <div class="card-body p-0 d-flex flex-fill">
+                        <div class="row g-0 w-100">
+                            <form action="" method="POST" class="search__form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-3 p-2 my-2">
+                                        <!-- Date From-->
+                                        {{form.date_from.errors}}
+                                        <label for="{{form.date_from.id_for_label}}"><b>Data Inicial</b></label>
+                                        <p>{{form.date_from}}</p>
+                                    </div>
+                                    <div class="col-lg-3 p-2 my-2">
+                                        <!-- Date To -->
+                                        {{form.date_to.errors}}
+                                        <label for="{{form.date_to.id_for_label}}"><b>Data Final</b></label>
+                                        <p>{{form.date_to}}</p>
+                                    </div>
+                                    <div class="col-lg-3 p-2 my-2">
+                                        <!-- Chart Type-->
+                                        {{form.chart_type.errors}}
+                                        <label for="{{form.chart_type.id_for_label}}"><b>Tipo de Gráfico</b></label>
+                                        <p>{{form.chart_type}}</p>
+                                    </div>
+                                    <div class="col-lg-3 p-2 my-2">
+                                        <!-- Results by -->
+                                        {{form.results_by.errors}}
+                                        <label for="{{form.results_by.id_for_label}}"><b>Resultados por</b></label>
+                                        <p>{{form.results_by}}</p>
+                                    </div>
+                                </div>
 
-    {% if dataframe %}
-    <!-- start report-->
-    <div class="report align-center">
-        <button class="btn btn-warning" id="report-btn" data-bs-toggle="modal" data-bs-target="#reportModal"> Criar
-            Relatório</button>
-        <a class="btn btn-dark" href="{% url 'reports:from-file' %}">Submeter CSV</a>
-    </div>
-    <!-- end report -->
-    <div class="row align-center">
-        <!-- Ínicio Chart Encomendas-->
-        <div class="col-auto">
-            <div class="card shadow text-center p-2 my-2">
-                <div class="chart__image">
-                    <img src="data:image/png;base64, {{chart|safe}}" id="img">
+                                <button type="submit" class="btn btn-warning"><i
+                                        class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="report align-center my-2">
+                        <button class="btn btn-success" id="report-btn" data-bs-toggle="modal"
+                            data-bs-target="#reportModal"> Criar
+                            Relatório</button>
+                        <a class="btn btn-warning" href="{% url 'reports:from-file' %}">Submeter CSV</a>
+                    </div>
                 </div>
+
             </div>
-        </div>
-        <!-- Fim Chart Encomendas-->
-
-        <!-- Lista de Encomendas Procuradas-->
-        <div class="col-3">
-            <div class="card shadow my-2 p-2">
-                <h3 class="card-header bg-dark text-white text-center">
-                    Lista de Encomendas
-                </h3>
-                <div class="card-body">
-                    <ul class="list-group">
-                        {% for obj in object_list %}
-
-                        <li class="list-group-item">
-                            {{obj.transaction_id}}
-                            <a href="{{obj.get_absolute_url}}" class="btn btn-warning btn-sm">Ver</a>
-                        </li>
-
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- Fim Lista de Encomendas Procuradas-->
-    </div>
-
-    <!-- Dataframe Table -->
-    <div class="row">
-        <div class="col">
-            <div class="card shadow p-2 my-2">
-                <h4 class="card-header bg-dark text-center text-warning">
-                    Tabela Encomendas
-                </h4>
-                <div class="card-body text-center">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="table-dark text-center">
-                                {% for k, v in df_dict.items %}
-                                <th>{{k}}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for rec in df_rec %}
-                            <tr>
-                                {% for i2, k2 in rec.items %}
-                                <td>{{k2}}</td>
-                                {% endfor %}
-                            </tr>
+            {% if dataframe %}
+            <div class="col-4 d-flex align-self-center text-center">
+                <div class="card flex-fill border-2 illustration p-2 my-2">
+                    <div class="card-body p-0 d-flex align-self-center">
+                        <ul class="list-group mb-2">
+                            <li class="list-group-item list-group-item-warning d-flex justify-content-between">
+                                <strong><i class="fa-solid fa-list"></i> Lista Encomendas Procuradas <i
+                                        class="fa-solid fa-list"></i></strong>
+                            </li>
+                            {% for obj in object_list %}
+                            <li class="list-group-item list-group-item-secondary">
+                                {{obj.transaction_id}}
+                                <a href="{{obj.get_absolute_url}}" class="btn btn-warning btn-sm"><i
+                                        class="fa-regular fa-eye"></i></a>
+                            </li>
                             {% endfor %}
-                        </tbody>
-                    </table>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row my-4">
+            <div class="col-12 d-flex align-self-center">
+                <div class="card flex-fill border-2 p-2 my-2">
+                    <div class="chart__image">
+                        <img src="data:image/png;base64, {{chart|safe}}" id="img">
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="card border-2">
+            <!-- Start Table -->
+            <div class="card-body text-center">
+                <table class="table">
+                    <thead>
+                        <tr class="table-secondary">
+                            {% for k, v in df_dict.items %}
+                            <th>{{k}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rec in df_rec %}
+                        <tr>
+                            {% for i2, k2 in rec.items %}
+                            <td>{{k2}}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
     </div>
-    <!-- Fim Dataframe Table -->
-    {% endif %}
-</div>
-
-
-
-
+</main>
 {% endblock content %}

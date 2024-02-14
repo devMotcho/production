@@ -1,34 +1,97 @@
 {% extends 'main.html' %}
 {% block content %}
 
-<div class="container my-3">
-    <!-- Tabela Do Ordem de Produção Ínicio -->
-    <div class="row">
-        <div class="col">{% include 'product/card_table_order.html' %}</div>
-    </div>
-    <br>
-    <!-- Tabela Do Ordem de Produção Fim -->
-
-    <!-- Form top page -->
-    <div class="row">
-        <div class="col">
-            {% include 'product/card_form_o_prod.html' %}
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="mb-3 text-center">
+            <h4> Ordens De Produção</h4>
+            <hr>
         </div>
-    </div>
-    <!-- End Form row-->
-    <hr>
-
-    <!-- Pie chart for each production order-->
-    <div class="row">
-        {% for obj in objects %}
-        <div class="col-md-4">
-            {% include 'product/card_chart_pie_p_ord.html' %}
+        <div class="action mb-4 text-end">
+            <a type="button" class="btn btn-warning" href="{% url 'product:add-prod-order' %}"><i
+                    class="fa-solid fa-plus"></i></a>
         </div>
+        <!-- Tabela Do Ordem de Produção Ínicio -->
+        <div class="row my-4">
+            <div class="col">{% include 'product/card_table_order.html' %}</div>
+        </div>
+        <br>
+        <!-- Chart loop -->
+        <div class="row my-4">
+            <div class="col-12 d-flex align-self-center text-center">
+                <!-- Chart de Ordens de produção-->
+                <div class="card flex-fill border-2 illustration p-2 my-2">
+                    <div class="card-body p-0 d-flex flex-fill">
+                        <div class="row g-0 w-100">
+                            {% for obj in objects %}
+                            <div class="col-lg-2 p-2 my-2 mx-2">
+                                <ul class="list-group mb-2">
+                                    <li class="list-group-item list-group-item-warning d-flex justify-content-between">
+                                        <strong><i class="fa-solid fa-chart-simple"></i> {{obj.product.name}} <i
+                                                class="fa-solid fa-chart-simple"></i></strong>
+                                    </li>
+                                    <li class="list-group-item list-group-item-secondary">
+                                        Ordem de :
+                                        <span
+                                            class="badge bg-secondary rounded-pill align-self-end">{{obj.quantity_ordered}}
+                                            unidades</span>
+                                    </li>
+                                    <li class="list-group-item list-group-item-secondary">
+                                        Produzidas :
+                                        <span
+                                            class="badge bg-secondary rounded-pill align-self-end">{{obj.quantity_produced}}
+                                            unidades</span>
+                                    </li>
+                                </ul>
+                                <div class=" chart-container">
+                                    <canvas id="myCharts{{obj.id}}" class="align-self-center"></canvas>
+                                    <script>
+                                        var ctx = document.getElementById('myCharts{{obj.id}}').getContext('2d');
+                                        var myCharts{{ obj.id }} = new Chart(ctx, {
+                                            type: 'pie',
+                                            data: {
+                                                labels: ['Quantidade Necessária', 'Quantidade Produzida'],
+                                                datasets: [{
+                                                    label: 'Ordem de Produção',
+                                                    data: ['{{obj.quantity_ordered}}', '{{obj.quantity_produced}}'],
+                                                    backgroundColor: [
+                                                        'rgba(255, 205, 86, 1)',
+                                                        'rgba(153, 102, 255, 1)',
+                                                    ],
+                                                    borderColor: [
+                                                        'rgb(0, 0, 0, 1)',
+                                                        'rgb(0, 0, 0, 1)',
 
-        {% endfor %}
+                                                    ],
+                                                    borderWidth: 1
+                                                }]
+                                            },
+                                            options: {
+                                                scales: {
+                                                    yAxes: [{
+                                                        ticks: {
+                                                            beginAtZero: true
+                                                        }
+                                                    }]
+                                                },
+                                                // Desabilita a manutenção da proporção para permitir a adaptabilidade
+                                            }
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="vr"></div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- End loop -->
+
+        <!-- End chart -->
     </div>
-    <br>
-    <!-- End chart -->
-</div>
-
+</main>
 {% endblock content %}

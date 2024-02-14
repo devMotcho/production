@@ -15,6 +15,7 @@ from .views import (
     productionDelete,
 
     productionOrderView,
+    createProductionOrder,
 )
 
 app_name = 'product'
@@ -39,4 +40,5 @@ urlpatterns = [
 
     #Ordem Produção
     path('productionOrderView/', productionOrderView, name='production-order'),
+    path('createProductionOrder/', createProductionOrder, name='add-prod-order'),
 ]

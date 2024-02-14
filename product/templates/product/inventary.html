@@ -1,27 +1,22 @@
 {% extends 'main.html' %}
 {% block content %}
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="mb-3 text-center">
+            <h4> Inventário</h4>
+            <hr>
+        </div>
+        <div class="action mb-4 text-end">
+            <a type="button" class="btn btn-warning" href="{% url 'product:prod' %}"><i
+                    class="fa-solid fa-plus"></i></a>
+        </div>
+        <div class="row">
+            {% include 'product/card_chart_bar_inv.html' %}
+        </div>
 
-<div class="container my-3">
-    <!-- Tabela Do Inventário Ínicio -->
-    <div class="row">
-        <div class="col">{% include 'product/card_table_inv.html' %}</div>
-    </div>
-    <!-- Tabela Do Inventário Fim -->
-    <div class="row p-2 text-center">
-        <div class="col">
-            <a href="{% url 'product:prod' %}">
-                <button type="button" class="btn btn-outline-warning btn-md">Adicionar
-                    Produção</button>
-            </a>
+        <div class="row">
+            {% include 'product/card_table_inv.html' %}
         </div>
     </div>
-    <br>
-    <!-- Gráficos Início -->
-    <div class="row">
-        {% include 'product/card_chart_bar_inv.html' %}
-    </div>
-    <!-- Gráficos Fim -->
-</div>
-
-
+</main>
 {% endblock content %}

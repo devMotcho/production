@@ -1,20 +1,24 @@
 {% extends 'main.html' %}
 {% block content %}
-<div class="card shadow my-2 p-2">
-    <h3 class="card-header bg-dark text-white text-center">
-        Lista de Encomendas
-    </h3>
-    <div class="card-body">
-        <ul class="list-group">
-            {% for obj in object_list %}
-
-            <li class="list-group-item">
-                {{obj.transaction_id}}
-                <a href="{{obj.get_absolute_url}}" class="btn btn-warning btn-sm">Ver</a>
-            </li>
-            {% endfor %}
-
-        </ul>
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="card flex-fill border-2 p-2 my-2">
+            <div class="card-body p-0 d-flex flex-fill">
+                <ul class="list-group mb-2">
+                    <li class="list-group-item list-group-item-warning d-flex justify-content-between">
+                        <strong><i class="fa-solid fa-list"></i> Lista Encomendas Procuradas <i
+                                class="fa-solid fa-list"></i></strong>
+                    </li>
+                    {% for obj in object_list %}
+                    <li class="list-group-item list-group-item-secondary">
+                        {{obj.transaction_id}}
+                        <a href="{{obj.get_absolute_url}}" class="btn btn-warning btn-sm"><i
+                                class="fa-regular fa-eye"></i></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
-</div>
+</main>
 {% endblock content %}

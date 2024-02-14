@@ -1,29 +1,41 @@
 {% extends 'main.html' %}
 {% block content %}
-<div class="container">
-    <div class="card">
-        <div class="card-header bg-dark text-warning text-center">
-            <h3>{{object.name}}</h3>
-        </div>
-        <div class="card-body">
-            <div class="card-image">
-                {% if object.image %}
-                <img src="{{object.image.url}}" class="img-fluid" alt="{{object.name}}">
-                {% endif %}
-            </div>
-            <br>
-            <p>{{object.text}}</p>
-            <hr>
-            <p>Autor: <b>{{object.author}}</b></p>
-            <p>Criado: <b>{{object.created|timesince}} ago</b></p>
 
-            <div class="card-action text-end">
-                <a href="{% url 'reports:update-report' object.id %}" class="btn btn-outline-dark btn-md">Editar</a>
-                <a class="btn btn-outline-danger" href="{% url 'reports:pdf' object.id %}">PDF</a>
+<main class="content">
+    <div class="container-fluid">
+        <div class="card border-2 align-self-center">
+            <div class="card-body">
+                <div class="p-3 m-1">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-warning d-flex justify-content-between">
+                            <strong>{{object.name}}</strong>
+                        </li>
+                        {% if object.image %}
+                        <li
+                            class="list-group-item list-group-item-secondary d-flex justify-content-between text-center">
+                            <img src="{{object.image.url}}" class="img-fluid" alt="{{object.name}}">
+                        </li>
+                        {% endif %}
+                        <li class="list-group-item list-group-item-secondary d-flex justify-content-between">
+                            <p>{{object.text}}</p>
+                        </li>
+                        <li class="list-group-item list-group-item-secondary d-flex justify-content-between">
+                            <p>Autor: <b>{{object.author}}</b></p>
+                        </li>
+                        <li class="list-group-item list-group-item-secondary d-flex justify-content-between">
+                            <p>Criado: <b>{{object.created|timesince}} ago</b></p>
+                        </li>
+                    </ul>
+                    <div class="card-action text-center mt-4">
+                        <a href="{% url 'reports:update-report' object.id %}" class="btn btn-warning btn-md"><i
+                                class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="{% url 'reports:pdf' object.id %}">PDF</a>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
-</div>
+</main>
+
 
 {% endblock content %}

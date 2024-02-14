@@ -2,6 +2,8 @@
 {% block content %}
 <main class="content px-3 py-2">
     <div class="container-fluid">
+        {{data_df|safe}}
+
         <div class="mb-4 text-center">
             <h4>Informações {{obj.name}}</h4>
         </div>

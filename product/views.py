@@ -200,18 +200,31 @@ def productionDelete(request, pk):
 
 #Orem Produção
 def productionOrderView(request):
-    ordemProd = ProductionOrder.objects.filter()
+    q = request.GET.get('q') if request.GET.get('q') is not None else ''
+    
+    ordemProd = ProductionOrder.objects.filter(
+        Q(product__name__icontains=q)
+    )
     form = ProductionOrderForm()
     if request.method == 'POST':
         form = ProductionOrderForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Ordem Adicionada com sucesso!', 'alert-success alert-dismissible')
-
     context = {
         'objects': ordemProd,
         'form':form,
-
     }
     return render(request, 'product/production_order.html', context)
 
+
+def createProductionOrder(request):
+    form = ProductionOrderForm()
+    if request.method == 'POST':
+        form = ProductionOrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Ordem Adicionada com sucesso!', 'alert-success alert-dismissible')
+            return redirect('product:production-order')
+    context = {'form':form}
+    return render(request, 'product/add_prod_order.html', context)
