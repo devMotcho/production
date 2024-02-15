@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import modelformset_factory
+from .models import Order, Position
 
 CHART_CHOICES = (
     ('#1', 'Gráfico de Barras'),
@@ -17,3 +19,21 @@ class OrdersSearchForm(forms.Form):
     date_to = forms.DateTimeField(widget=forms.DateInput(attrs={'type': 'date'}))
     chart_type = forms.ChoiceField(choices=CHART_CHOICES)
     results_by = forms.ChoiceField(choices=RESULT_CHOICES)
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['client', 'delivery_date']
+        widgets ={
+            'delivery_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+class PositionForm(forms.ModelForm):
+    class Meta:
+        model = Position
+        fields = ['product', 'quantity']
+
+PositionFormSet = modelformset_factory(
+    Position, fields=('product', 'quantity'), extra=1
+)

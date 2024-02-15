@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'human.apps.HumanConfig',
     'dashboard.apps.DashboardConfig',
-    'statistic.apps.StatisticConfig',
     'orders.apps.OrdersConfig',
     'reports.apps.ReportsConfig',
     
@@ -138,6 +137,9 @@ MEDIA_URL ='/images/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+    BASE_DIR / 'orders' / 'static',
+    BASE_DIR / 'reports' / 'static',
+
 ]
 
 MEDIA_ROOT = BASE_DIR / 'static/images'

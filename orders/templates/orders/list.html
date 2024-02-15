@@ -1,0 +1,67 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModal">Adicionar Encomenda</h5>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" aria-label="Close"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+
+                    <!-- product -->
+                    {{ form.client.errors }}
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupSelect01">Cliente</label>
+                        <select class="form-select" id="inputGroupSelect01" name="client">
+                            <option selected disabled>Choose...</option>
+                            {% for item in clients %}
+                            <option value="{{ item.id }}">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!-- quantidade -->
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning border-2 text-bottom p-2">Confirmar<span
+                            class="badge bg-dark mx-2"><i class="fa-solid fa-check"></i></span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="action mb-4 text-end">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#orderModal"><i
+                    class="fa-solid fa-plus"></i></button>
+        </div>
+        <div class="card flex-fill border-2 p-2 my-2">
+            <div class="card-body p-0 d-flex flex-fill">
+                <ul class="list-group mb-2">
+                    <li class="list-group-item list-group-item-warning d-flex justify-content-between">
+                        <strong><i class="fa-solid fa-list"></i> Lista Encomendas Procuradas <i
+                                class="fa-solid fa-list"></i></strong>
+                    </li>
+                    {% for obj in object_list %}
+                    <li class="list-group-item list-group-item-secondary">
+                        {{obj.transaction_id}}
+                        <a href="{{obj.get_absolute_url}}" class="btn btn-warning btn-sm"><i
+                                class="fa-regular fa-eye"></i></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

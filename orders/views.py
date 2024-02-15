@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 import pandas as pd
+from django.contrib import messages
 
 #my imports
 from .models import Order, Position
-from .forms import OrdersSearchForm
+from human.models import Client
+from .forms import OrdersSearchForm, OrderForm, PositionForm, PositionFormSet
 from reports.forms import ReportForm
 from .utils import get_client_from_id, get_salesman_from_id, get_chart
-
+from product.models import Product
 
 def search(request):
     dataframe = None
@@ -81,10 +83,61 @@ def search(request):
     return render(request, 'orders/search.html', context)
 
 
-class OrderListView(ListView):
-    model = Order
-    template_name = 'orders/list.html'
-
 class OrderDetailView(DetailView):
     model = Order
     template_name = 'orders/detail.html'
+
+def orderView(request):
+    orders = Order.objects.filter()
+    clients = Client.objects.filter()
+    #Adicionar pesquisa!!!!!!!!!!!!
+    form = OrderForm()
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Encomenda Adicionada!', 'alert-success alert-dismissible')
+        else:
+            messages.error(request, 'ERRO !', 'alert-warning alert-dismissible')
+            
+
+    context = {
+        'object_list':orders,
+        'form':form,
+        'clients':clients,
+    }
+    return render(request, 'orders/list.html', context)
+
+
+def createOrder(request):
+    # Order Form
+    form = OrderForm()
+    # Positions FormSet
+    formset = PositionFormSet(queryset=Position.objects.none())
+
+    products = Product.objects.filter()
+
+    print(formset)
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        formset = PositionFormSet(request.POST)
+        print(formset)
+        if form.is_valid():
+            order = form.save()
+            if formset.is_valid():
+                for formm in formset:
+                    formm.save()
+                    order.position.add(formm)
+            order.save()
+            print('Done!')
+
+                
+
+        
+    context = {
+        'form':form,
+        'formset':formset,
+        'products':products,
+    }
+    return render(request, 'orders/create.html', context)

@@ -36,9 +36,10 @@ class Order(models.Model):
     positions = models.ManyToManyField(Position)
     total_price = models.FloatField(blank=True, null=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    salesman = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-    created = models.DateTimeField(blank=True)
+    salesman = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True)
+    delivery_date = models.DateField(blank=True, null=True)
+    
+    created = models.DateTimeField(blank=True, null=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
